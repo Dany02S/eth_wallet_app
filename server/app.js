@@ -3,17 +3,21 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const connection = require('./db')
-const authRouter = require('./routes/login')
-const usersRouter = require('./routes/registerUser')
 
+// Routes
+const loginRouter = require('./routes/login')
+const registerRouter = require('./routes/registerUser')
+
+// Middlewares
 connection()
 app.use(express.json())
 app.use(cors())
 
+// Routes
+app.use('/api/login', loginRouter)
+app.use('/api/register', registerRouter)
 
-app.use('/api/auth', authRouter)
-app.use('/api/users', usersRouter)
-
+// Start server
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

@@ -20,7 +20,6 @@ router.post('/', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
-
 const validation = (data) => {
     const schema = Joi.object({
         email: Joi.string().email().required(),

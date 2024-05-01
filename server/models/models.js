@@ -31,19 +31,17 @@ const transactionSchema = new mongoose.Schema({
     created_at: {type: Date, default: Date.now}
 });
 
-// Create methods for the schemas
+// Create a method to generate a token for the user
 userSchema.methods.generateAuthToken = function() {
     return jwt.sign({ _id: this._id, email: this.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 }
-
 
 // Create models for the schemas
 const User = mongoose.model('users', userSchema);
 const Wallet = mongoose.model('wallets', walletSchema);
 const Transaction = mongoose.model('transactions', transactionSchema);
 
-
-// Validate user input with Joi from the client
+// Export the models
 module.exports = { User, Wallet, Transaction};
 
 
