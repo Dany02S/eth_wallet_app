@@ -4,7 +4,6 @@ const passwordComplexity = require('joi-password-complexity');
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 
-
 // Create schemas for the database
 const userSchema = new mongoose.Schema({
     first_name: {type: String, required: true},
@@ -42,6 +41,6 @@ const Wallet = mongoose.model('wallets', walletSchema);
 const Transaction = mongoose.model('transactions', transactionSchema);
 
 // Export the models
-module.exports = { User, Wallet, Transaction};
+module.exports = { User, Wallet, Transaction };
 
 

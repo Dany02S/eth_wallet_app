@@ -5,7 +5,7 @@ const cors = require('cors')
 const connection = require('./db')
 
 // Routes
-const loginRouter = require('./routes/login')
+const loginRouter = require('./routes/loginUser')
 const registerRouter = require('./routes/registerUser')
 
 // Middlewares

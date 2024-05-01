@@ -28,5 +28,4 @@ const validation = (data) => {
     return schema.validate(data);
 }
 
-
 module.exports = router;
