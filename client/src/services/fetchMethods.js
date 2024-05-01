@@ -5,7 +5,7 @@ const axiosFetch = async ({ method, url, data }, contentType = 'application/json
 
   const headers = {
     'Content-Type': contentType,
-    Authorization: `Bearer ${token}`,
+    'Authorization': `Bearer ${token}`,
   };
 
   const axiosOptions = {

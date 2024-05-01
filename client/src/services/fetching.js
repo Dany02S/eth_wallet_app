@@ -2,10 +2,23 @@ import { axiosPost } from "./fetchMethods";
 
 // * POST request to /api/login
 export const loginUser = async (email, password) => {
-  // Get the URL from the .env file
   const url = "http://localhost:3001/api/login";
-  const data = { email, password };
-  console.log(axiosPost(url, data));
+  const data = {
+    "email": email,
+    "password": password
+  }
+  try {
+    const response = await axiosPost(url, data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
 };
 
 // * POST request to /api/register
@@ -17,5 +30,16 @@ export const registerUser = async (firstName, lastName, email, password) => {
     "email": email,
     "password": password
   }
-  console.log(axiosPost(url, data));
+  try {
+    const response = await axiosPost(url, data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
 }

@@ -6,10 +6,10 @@ const Joi = require('joi');
 router.post('/', async (req, res) => {
     try {
         const { error } = validation(req.body); 
-        if (error) return res.status(400).send(error.details[0].message);
+        if (error) return res.status(400).send({ message: error.details[0].message});
 
         const user = await User.findOne({ email: req.body.email });
-        if (user) return res.status(409).send('User already registered');
+        if (user) return res.status(409).send({ message: 'User already exists'});
         
         const salt = await bcrypt.genSalt(Number(process.env.SALT));
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -21,9 +21,9 @@ router.post('/', async (req, res) => {
             password_hashed: hashedPassword
         }
         await new User(new_user).save();
-        res.status(201).send('User registered');
+        res.status(201).send({ message: 'User created, go log in!'});
     } catch (error) {
-        res.status(500).send('Internal server error');
+        res.status(500).send({ message: error.message});
     }
 });
 const validation = (data) => {
