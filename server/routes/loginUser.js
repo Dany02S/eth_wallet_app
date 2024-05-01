@@ -15,7 +15,12 @@ router.post('/', async (req, res) => {
         if (!validPassword) return res.status(404).send('Thats not your password');
 
         const token = user.generateAuthToken();
-        res.status(200).send(token);
+        const resp = {
+            "token": token,
+            "user": req.body.email,
+            "message": "Login successful"
+        }
+        res.status(200).send(resp);
     } catch (error) {
         res.status(500).send('Internal server error');
     }
