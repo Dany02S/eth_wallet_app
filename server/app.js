@@ -7,6 +7,7 @@ const connection = require('./db')
 // Routes
 const loginRouter = require('./routes/loginUser')
 const registerRouter = require('./routes/registerUser')
+const pageRouter = require('./routes/pageUser')
 
 // Middlewares
 connection()
@@ -16,6 +17,7 @@ app.use(cors())
 // Routes
 app.use('/api/login', loginRouter)
 app.use('/api/register', registerRouter)
+app.use('/api/users', pageRouter)
 
 // Start server
 const PORT = process.env.PORT || 3001
