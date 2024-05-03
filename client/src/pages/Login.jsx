@@ -15,7 +15,7 @@ function Login() {
             const response = await loginUser(email, password)
             localStorage.setItem('token', response.token)
             localStorage.setItem('user', response.user)
-            navigate('/')
+            navigate('/user')
         } catch (error) {
             setLoginError(error.message)
         }
@@ -28,7 +28,6 @@ function Login() {
                 <input className='form-input' type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                 {loginError && <div className='form-error'>{loginError}</div>}
                 <button className='form-button' type='submit'>Login</button>
-                {/* Go to login if have an account */}
             </form>
             <p className='nav-text'>Don`t have an account? <span className='nav-link' onClick={() => navigate('/register')}>Register</span></p>
         </div>

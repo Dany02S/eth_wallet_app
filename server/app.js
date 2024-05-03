@@ -17,7 +17,7 @@ app.use(cors())
 // Routes
 app.use('/api/login', loginRouter)
 app.use('/api/register', registerRouter)
-app.use('/api/users', pageRouter)
+app.use('/api/user', pageRouter)
 
 // Start server
 const PORT = process.env.PORT || 3001

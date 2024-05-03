@@ -7,13 +7,10 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 const authenticateUser = require('../middlewares/Authenticate');
 
-router.get('/:id', authenticateUser, async (req, res) => {
-    const userId = req.params.id;
+router.get('/', authenticateUser, async (req, res) => {
+    const userId = req.userId
     console.log("hello");
     try {
-      if (userId !== req.userId) {
-        return res.status(403).json({ message: 'Forbidden: You are not authorized to access this resource' });
-      }
       const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
