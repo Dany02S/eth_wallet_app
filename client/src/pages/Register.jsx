@@ -35,6 +35,7 @@ function Register() {
                 {registrationError && success === false && <div className='form-error'>{registrationError}</div>}
                 {success ? <button onClick={() => navigate('/login')} className='form-button' type='button'>Login</button> : <button className='form-button' type='submit'>Register</button>}
             </form>
+            <p className='nav-text'>Already have an account? <span className='nav-link' onClick={() => navigate('/login')}>Login</span></p>
         </div>
     )
 }
