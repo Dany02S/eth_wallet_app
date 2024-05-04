@@ -1,1 +1,7 @@
-/server/node_modules
+server/node_modules
+server/.env
+
+# client
+client/node_modules
+client/.env
+
