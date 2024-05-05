@@ -15,7 +15,7 @@
 }
 
 .nav-link {
-    color: #4CAF50;
+    color: var(--interface-color);
     text-decoration: none;
 }
 .nav-link:hover {
@@ -32,7 +32,7 @@
 }
 
 .nav-button {
-    background-color: #4CAF50;
+    background-color: var(--interface-color);
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
@@ -42,5 +42,5 @@
     text-decoration: none;
 }
 .nav-button:hover {
-    background-color: #45a049;
+    background-color: var(--interface-hover);
 }

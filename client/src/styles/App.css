@@ -1,3 +1,10 @@
+/* Create variable */
+:root {
+    --interface-color: #1fae61;
+    --interface-hover: rgb(28, 150, 85);
+}
+
+
 .App {
     display: flex;
     justify-content: center;

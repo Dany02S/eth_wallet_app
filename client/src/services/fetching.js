@@ -64,3 +64,22 @@ export const getUser = async (token) => {
     }
   }
 }
+
+// * POST request to /api/address
+
+export const saveAddressToDB = async (address) => {
+  const url = "http://localhost:3001/api/address";
+  try {
+    const response = await axiosPost(url, {address});
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+  

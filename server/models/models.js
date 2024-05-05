@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}
 });
-const walletSchema = new mongoose.Schema({
+const addressSchema = new mongoose.Schema({
     user_id: {type: mongoose.Schema.Types.ObjectId, required: true},
     address: {type: String, required: true},
     name: {type: String, required: true},
@@ -37,10 +37,10 @@ userSchema.methods.generateAuthToken = function() {
 
 // Create models for the schemas
 const User = mongoose.model('users', userSchema);
-const Wallet = mongoose.model('wallets', walletSchema);
+const Address = mongoose.model('addresses', addressSchema);
 const Transaction = mongoose.model('transactions', transactionSchema);
 
 // Export the models
-module.exports = { User, Wallet, Transaction };
+module.exports = { User, Address, Transaction };
 
 

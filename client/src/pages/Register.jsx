@@ -18,6 +18,7 @@ function Register() {
             const res = await registerUser(firstName, lastName, email, password)
             setSuccess(true)
             setRegistrationError(res.message)
+            localStorage.setItem('token', res.token)
         } catch (error) {
             setRegistrationError(error.message)
         }
@@ -33,7 +34,7 @@ function Register() {
                 <input className='form-input' type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                 {success ? <div className='form-success'>{registrationError}</div> : null}
                 {registrationError && success === false && <div className='form-error'>{registrationError}</div>}
-                {success ? <button onClick={() => navigate('/login')} className='form-button' type='button'>Login</button> : <button className='form-button' type='submit'>Register</button>}
+                {success ? <button onClick={() => navigate('/create-address')} className='form-button' type='button'>Create Addres</button> : <button className='form-button' type='submit'>Register</button>}
             </form>
             <p className='nav-text'>Already have an account? <span className='nav-link' onClick={() => navigate('/login')}>Login</span></p>
         </div>

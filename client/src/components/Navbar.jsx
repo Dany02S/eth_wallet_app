@@ -12,7 +12,7 @@ function Navbar() {
 
     return (
         <div className='navbar'>
-            <h2>Navbar</h2>
+            <h2>ETH Wallet</h2>
             {!localStorage.getItem('token') 
             ?  <div><Link to='/login' className='nav-link'>Login</Link> / <Link to='/register' className='nav-link'>Register</Link></div>
             : <button className='nav-button' onClick={handleLogout}>Logout</button>}

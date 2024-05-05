@@ -1,0 +1,22 @@
+.address-container {
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font: 1em sans-serif;
+    gap: 60px;
+}
+
+.address-container div {
+    margin: 10px 0;
+}
+
+#address {
+    font-size: small;
+}
