@@ -45,14 +45,10 @@ export const registerUser = async (firstName, lastName, email, password) => {
 }
 
 // * GET request to /api/user
-
-export const getUser = async (token) => {
+export const getUser = async () => {
   const url = "http://localhost:3001/api/user";
-  const headers = {
-    "Authorization": `Bearer ${token}`
-  }
   try {
-    const response = await axiosGet(url, headers);
+    const response = await axiosGet(url);
     return response;
   } catch (error) {
     if (error.response) {
@@ -66,11 +62,14 @@ export const getUser = async (token) => {
 }
 
 // * POST request to /api/address
-
-export const saveAddressToDB = async (address) => {
-  const url = "http://localhost:3001/api/address";
+export const saveAccountToDB = async (address, name) => {
+  const url = "http://localhost:3001/api/account";
+  const data = {
+    address: address,
+    name: name
+  }
   try {
-    const response = await axiosPost(url, {address});
+    const response = await axiosPost(url, data);
     return response;
   } catch (error) {
     if (error.response) {
@@ -82,4 +81,5 @@ export const saveAddressToDB = async (address) => {
     }
   }
 }
+
   

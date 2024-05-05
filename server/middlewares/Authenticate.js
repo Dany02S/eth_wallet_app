@@ -5,15 +5,9 @@ const { JWT_SECRET } = process.env;
 
 const authenticateUser = (req, res, next) => {
     const token = req.headers.authorization;
-    if (!token) {
-      return res.status(401).json({ message: 'Authorization token is missing' });
-    }
-
+    if (!token) return res.status(401).json({ message: 'Authorization token is missing' });
     const [bearer, receivedToken] = token.split(' ');
-    if (bearer !== 'Bearer' || !receivedToken) {
-      return res.status(401).json({ message: 'Invalid authorization token format' });
-    }
-
+    if (bearer !== 'Bearer' || !receivedToken) return res.status(401).json({ message: 'Invalid authorization token format' });
     try {
       const {_id} = jwt.verify(receivedToken, JWT_SECRET);
       req.userId = _id;

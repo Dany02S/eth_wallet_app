@@ -11,6 +11,7 @@
 
     font: 1em sans-serif;
     gap: 60px;
+    min-width: 700px;
 }
 
 .address-container div {
