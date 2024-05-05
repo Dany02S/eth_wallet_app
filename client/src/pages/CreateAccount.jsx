@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import { useNavigate } from 'react-router-dom';
 import { saveAccountToDB } from '../services/fetching';
 
-function CreateAddress() {
+function CreateAccount() {
     const [saved, setSaved] = useState(false);
     const [balance, setBalance] = useState('');
     const [error, setError] = useState(null);
@@ -36,11 +36,11 @@ function CreateAddress() {
 
     return (
         <div className='form-container'>
-            <h1>Create Address</h1>
+            <h1>Create Account</h1>
             <div className='form-div'>Address: {account.address}</div>
             {!saved && <> 
-                <input className='form-input' type='password' placeholder='Password' value={accountPassword} onChange={(e) => setAccountPassword(e.target.value)} />
-                <input className='form-input' type="text"  placeholder="Name" value={accountName} onChange={(e) => setAccountName(e.target.value)} />
+                <input className='form-input' type='password' placeholder='Password for encrypting private key' value={accountPassword} onChange={(e) => setAccountPassword(e.target.value)} />
+                <input className='form-input' type="text"  placeholder="Name of the account" value={accountName} onChange={(e) => setAccountName(e.target.value)} />
             </>}
 
             {saved ? <>
@@ -55,4 +55,4 @@ function CreateAddress() {
     );
 }
 
-export default CreateAddress;
+export default CreateAccount;

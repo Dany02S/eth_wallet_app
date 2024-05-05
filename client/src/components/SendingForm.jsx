@@ -24,23 +24,37 @@ const SendingForm = ({ balance, address }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const account = JSON.parse(localStorage.getItem(receiver));
-        const dencryptedAccount = await web3.eth.accounts.decrypt(account, password);
-
-        await web3.eth.sendTransaction({
-            from: address,
-            to: receiver,
-            value: web3.utils.toWei(amount, 'ether')
-        }, dencryptedAccount.privateKey);
-
-        window.location.reload();
+        const account = JSON.parse(localStorage.getItem(address));
+        if (!account) {
+            setError('Your account was not found!');
+            return;
+        }
+        try {
+            const dencryptedAccount = await web3.eth.accounts.decrypt(account, password);
+            console.log(dencryptedAccount);
+            const transaction = {
+                from: address,
+                to: receiver,
+                value: web3.utils.toWei(amount.toString(), 'ether')
+            };
+            try {
+                await web3.eth.sendTransaction(transaction, dencryptedAccount.privateKey);
+                setError('');
+            } catch (error) {
+                setError(error.message);
+                return;
+            }
+        } catch (error) {
+            setError('Invalid password');
+            return;
+        }
     }
 
     return (
         <form onSubmit={handleSubmit}>
             {/* Accept only numeric values */}
             <input className='form-input'  type="number" placeholder={'Amount, send max ' +  balance} onChange={handleAmount} />
-            <input className='form-input' type="password" placeholder='Account password required to sign the transaction' value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input className='form-input' type="password" placeholder='Account password required to sign the transaction with private key' value={password} onChange={(e) => setPassword(e.target.value)} />
             <input className='form-input' type="text" placeholder='Reciver address' value={receiver} onChange={(e) => setReceiver(e.target.value)} />
             {error && <div className='form-error'>{error}</div>}
             <button className='form-button' type="submit">Send</button>

@@ -38,10 +38,12 @@ function UserPage() {
 
   return (
     <div className="user-container">
+      
       <div className="form-container">
-        <h1>Welcome {user?.first_name} {user?.last_name}</h1>
-        {error && <div className="form-error">{error}</div>}
-        {!error && <button className="form-button" onClick={() => navigate("/create-address")}>Create Address</button>}
+        {error ? <div className="form-error">{error}</div> :<>
+          <h1>Welcome {user?.first_name} {user?.last_name}</h1>
+          <button className="form-button" onClick={() => navigate("/create-account")}>Create new account</button>
+        </>}
       </div>
 
       {accounts.map((account, index) => (
