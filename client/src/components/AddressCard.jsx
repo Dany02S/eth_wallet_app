@@ -3,7 +3,7 @@ import '../styles/AddressCard.css';
 import { useState } from 'react';
 import SendingForm from './SendingForm';
 
-const AddressCard = ({ address, name, balance, setBalances, key }) => {
+const AddressCard = ({ address, name, balance, setBalances, key, transactions}) => {
     const [sendingForm, setSendingForm] = useState(false);
     return (
         <div className='address-container'>
@@ -15,8 +15,7 @@ const AddressCard = ({ address, name, balance, setBalances, key }) => {
                 <div>Balance {parseFloat(balance).toFixed(6)} ETH</div>
                 <button className='form-button' onClick={() => setSendingForm(!sendingForm)}>Transaction</button>
             </div>
-            {sendingForm && <SendingForm address={address} balance={parseFloat(balance).toFixed(6)} setBalances={setBalances} key={key} />}
-
+            {sendingForm && <SendingForm address={address} balance={parseFloat(balance).toFixed(6)} setBalances={setBalances} key={key} transactions={transactions} />}
         </div>
     );
 };
@@ -27,6 +26,7 @@ AddressCard.propTypes = {
     address: PropTypes.string.isRequired,
     balance: PropTypes.string.isRequired,
     setBalances: PropTypes.func.isRequired,
+    transactions: PropTypes.array.isRequired
 };
 
 export default AddressCard;

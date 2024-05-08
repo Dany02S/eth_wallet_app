@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Account } = require('../models/models');
+const { User, Account, Transaction } = require('../models/models');
 const authenticateUser = require('../middlewares/Authenticate');
 
 router.get('/', authenticateUser, async (req, res) => {
@@ -8,6 +8,8 @@ router.get('/', authenticateUser, async (req, res) => {
       const user = await User.findById(userId);
       if (!user) return res.status(404).json({ message: 'User not found' });
       const accounts = await Account.find({ user_id: userId });
+      const transactions = await Transaction.find({ user_id: userId });
+      
       const data = {
         user : {
           _id: user._id,
@@ -15,7 +17,8 @@ router.get('/', authenticateUser, async (req, res) => {
           first_name: user.first_name,
           last_name: user.last_name,
         },
-        accounts: accounts
+        accounts: accounts,
+        transactions : transactions
       };
       res.status(200).json(data);
     } catch (error) {

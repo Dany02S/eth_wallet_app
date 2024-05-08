@@ -3,12 +3,15 @@ import { Web3 } from 'web3';
 import PropTypes from 'prop-types';
 import { postTransaction } from '../services/fetching';
 
-const SendingForm = ({ balance, address, setBalances, key }) => {
+const SendingForm = ({ balance, address, setBalances, key, transactions }) => {
     const [amount, setAmount] = useState(0);
     const [receiver, setReceiver] = useState('');
     const [password, setPassword] = useState('');
+
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+
+    const [newReceiver, setNewReceiver] = useState(false);
     const web3 = new Web3("http://localhost:7545");
 
     const handleAmount = (e) => {
@@ -29,6 +32,13 @@ const SendingForm = ({ balance, address, setBalances, key }) => {
         setAmount(value);
         setError('');
     }
+
+    const handleReciever = (e) => {
+        e.preventDefault();
+        const value = e.target.value;
+        setReceiver(value);
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -89,7 +99,17 @@ const SendingForm = ({ balance, address, setBalances, key }) => {
         <form onSubmit={handleSubmit}>
             <input className='form-input' type="text" placeholder={'Amount, send max ' +  balance} onChange={(e) => handleAmount(e)} />            
             <input className='form-input' type="password" placeholder='Account password required to sign the transaction with private key' value={password} onChange={(e) => setPassword(e.target.value)} />
-            <input className='form-input' type="text" placeholder='Reciver address' value={receiver} onChange={(e) => setReceiver(e.target.value)} />
+            <div className='form-inputs'>
+                {!newReceiver ?
+                    <select className='form-input' value={receiver} onChange={(e) => handleReciever(e)}>
+                        <option value=''>Select receiver from your history</option>
+                        {transactions.map((transaction, index) => (
+                            <option key={index} value={transaction}>{transaction}</option>
+                        ))}
+                    </select>
+                    : <input className='form-input' type="text" placeholder='Reciver address' value={receiver} onChange={(e) => handleReciever(e)} />}
+                <button type='button' className='form-button' onClick={() => setNewReceiver(!newReceiver)}>{newReceiver ? 'Select from history' : 'Add new receiver'}</button>
+            </div>
 
             {error && <div className='form-error'>{error}</div>}
             {success && <div className='form-success'>{success}</div>}
@@ -104,6 +124,7 @@ SendingForm.propTypes = {
     address: PropTypes.string.isRequired,
     setBalances: PropTypes.func.isRequired,
     key: PropTypes.number.isRequired,
+    transactions: PropTypes.array.isRequired
 };
 
 export default SendingForm;

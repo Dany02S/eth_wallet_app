@@ -11,6 +11,7 @@ function UserPage() {
   const [user, setUser] = useState(null);
   const [accounts, setAccounts] = useState([]);
   const [balances, setBalances] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const navigate = useNavigate();
   
 
@@ -22,17 +23,24 @@ function UserPage() {
         const res = await getUser();
         setUser(res.user);
         setAccounts(res.accounts);
-        const balances = await Promise.all(res.accounts.map(async account => {
+        setTransactions(res.transactions);
+
+        await Promise.all(res.accounts.map(async account => {
           const balance = await web3.eth.getBalance(account.address);
-          return web3.utils.fromWei(balance, 'ether');
+          setBalances(prevBalances => [...prevBalances, web3.utils.fromWei(balance, 'ether')]);
         }));
-        setBalances(balances);
+
       } catch (error) {
         setError(error.message);
       }
     }
     fetchUser();
-  }, [balances]);
+  }, []);
+
+  const transactionsFromAccount = (address) => {
+    const tran = transactions.filter(transaction => transaction.sender_address === address);
+    return tran.map(transaction => transaction.receiver_address).filter((value, index, self) => self.indexOf(value) === index);
+  }
 
   return (
     <div className="user-container">
@@ -46,7 +54,7 @@ function UserPage() {
       </div>
 
       {accounts.map((account, index) => (
-        <AddressCard key={index} name={account.name} address={account.address} balance={balances[index]} setBalances={setBalances} />
+        <AddressCard key={index} name={account.name} address={account.address} balance={balances[index]} setBalances={setBalances} transactions={transactionsFromAccount(account.address)} />
       ))}
     </div>
   );
