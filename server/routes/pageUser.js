@@ -1,10 +1,5 @@
 const router = require('express').Router();
 const { User, Account } = require('../models/models');
-const bcrypt = require('bcrypt');
-const e = require('express');
-const Joi = require('joi');
-const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = process.env;
 const authenticateUser = require('../middlewares/Authenticate');
 
 router.get('/', authenticateUser, async (req, res) => {

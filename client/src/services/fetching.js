@@ -80,4 +80,26 @@ export const saveAccountToDB = async (address, name) => {
   }
 }
 
+// * POST request to /api/transaction
+
+export const postTransaction = async (transaction_hash, amount, sender_address, receiver_address) => {
+  try {
+    const data = {
+      transaction_hash: transaction_hash,
+      amount: amount,
+      sender_address: sender_address,
+      receiver_address: receiver_address
+    }
+    const response = await axiosPost(url + "/transaction", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
   

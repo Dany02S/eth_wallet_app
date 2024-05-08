@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Web3 } from 'web3';
 import PropTypes from 'prop-types';
+import { postTransaction } from '../services/fetching';
 
 const SendingForm = ({ balance, address, setBalances, key }) => {
     const [amount, setAmount] = useState(0);
@@ -55,16 +56,27 @@ const SendingForm = ({ balance, address, setBalances, key }) => {
     const handleTransaction = async (transaction, privateKey) => {
         try {
             const signedTransaction = await web3.eth.accounts.signTransaction(transaction, privateKey);
-            const receipt = await web3.eth.sendSignedTransaction(signedTransaction.rawTransaction);
-            console.log(receipt);
+            let transactionHash = '';
+            const receipt = await web3.eth.sendSignedTransaction(signedTransaction.rawTransaction).
+            on('transactionHash', (hash) => {
+                transactionHash = hash.split('x')[1];
+            });
+            if (receipt.status === false) {
+                setError('Transaction failed!');
+                return;
+            }
+            await postTransaction(transactionHash, amount, address, receiver );
             setSuccess('Transaction was successful!');
+
             const balance = await web3.eth.getBalance(address);
             const newBalance = web3.utils.fromWei(balance, 'ether');
+
             setBalances(prev => {
                 const newBalances = [...prev];
                 newBalances[key] = newBalance;
                 return newBalances;
             });
+
             setReceiver('');
             setPassword('');
             setError('');

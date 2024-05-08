@@ -21,7 +21,6 @@ const accountSchema = new mongoose.Schema({
 });
 const transactionSchema = new mongoose.Schema({
     user_id: {type: mongoose.Schema.Types.ObjectId, required: true},
-    wallet_id: {type: mongoose.Schema.Types.ObjectId, required: true},
     transaction_hash: {type: String, required: true},
     amount: {type: Number, required: true},
     sender_address: {type: String, required: true},

@@ -1,5 +1,3 @@
-const router = require('express').Router();
-const { User } = require('../models/models');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 
