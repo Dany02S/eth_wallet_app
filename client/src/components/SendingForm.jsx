@@ -86,10 +86,14 @@ const SendingForm = ({ balance, address, setBalances, key, transactions }) => {
                 newBalances[key] = newBalance;
                 return newBalances;
             });
+            // Reset the form
+            
 
             setReceiver('');
             setPassword('');
             setError('');
+            // Refresh the page
+            window.location.reload();
         } catch (error) {
             setError(error.message);
         }
