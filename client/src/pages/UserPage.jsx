@@ -16,6 +16,7 @@ function UserPage() {
 
   useEffect(() => {
     const web3 = new Web3('http://localhost:7545');
+    
     const fetchUser = async () => {
       try {
         const res = await getUser();
@@ -38,10 +39,10 @@ function UserPage() {
       
       <div className="form-container">
         {error ? <div className="form-error">{error}</div> 
-        :<div>
+        :<>
           <h1>Welcome {user?.first_name} {user?.last_name}</h1>
           <button className="form-button" onClick={() => navigate("/create-account")}>Create new account</button>
-        </div>}
+        </>}
       </div>
 
       {accounts.map((account, index) => (

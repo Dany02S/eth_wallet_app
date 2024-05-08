@@ -34,13 +34,14 @@
 .navbar div {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .navbar img {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    margin-right: 0.5rem;
+    margin-right: 1rem;
     object-fit: cover;
     cursor: pointer;
 }
@@ -60,4 +61,8 @@
 }
 .nav-button:hover {
     background-color: var(--interface-hover);
+}
+
+h1 span {
+    color: var(--interface-color);;
 }

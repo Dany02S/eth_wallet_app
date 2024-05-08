@@ -12,7 +12,10 @@ function Navbar() {
 
     return (
         <div className='navbar'>
-            <h2>ETH Wallet</h2>
+            <div onClick={() => navigate('/')}>
+                <img src="../../public/eth_logo.png" alt="" />
+                <h2>ETH Wallet</h2>
+            </div>
             {!localStorage.getItem('token') 
             ?  <div><Link to='/login' className='nav-link'>Login</Link>&nbsp;/&nbsp;<Link to='/register' className='nav-link'>Register</Link></div>
             : <div>

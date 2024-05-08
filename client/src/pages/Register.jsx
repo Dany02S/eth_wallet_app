@@ -8,8 +8,10 @@ function Register() {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
     const [registrationError, setRegistrationError] = useState('')
     const [success, setSuccess] = useState(false)
+    
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
@@ -34,8 +36,12 @@ function Register() {
                 <input className='form-input' type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
 
                 {registrationError && success === false && <div className='form-error'>{registrationError}</div>}
-                {success ? <div className='form-success'>{registrationError}</div> : null}
-                {success ? <button onClick={() => navigate('/create-account')} className='form-button' type='button'>Create Account</button> : <button className='form-button' type='submit'>Register</button>}
+                {success 
+                    ? <>
+                        <div className='form-success'>{registrationError}</div>
+                        <button onClick={() => navigate('/create-account')} className='form-button' type='button'>Create Account</button>
+                    </> 
+                    : <button className='form-button' type='submit'>Register</button>}
             </form>
             <p className='nav-text'>Already have an account? <span className='nav-link' onClick={() => navigate('/login')}>Login</span></p>
         </div>

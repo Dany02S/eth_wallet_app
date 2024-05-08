@@ -1,14 +1,15 @@
 import { axiosPost, axiosGet } from "./fetchMethods";
 
+const url = "http://localhost:3001/api";
+
 // * POST request to /api/login
 export const loginUser = async (email, password) => {
-  const url = "http://localhost:3001/api/login";
   const data = {
     "email": email,
     "password": password
   }
   try {
-    const response = await axiosPost(url, data);
+    const response = await axiosPost(url + "/login", data);
     return response;
   } catch (error) {
     if (error.response) {
@@ -23,7 +24,6 @@ export const loginUser = async (email, password) => {
 
 // * POST request to /api/register
 export const registerUser = async (firstName, lastName, email, password) => {
-  const url = "http://localhost:3001/api/register";
   const data = {
     "first_name": firstName,
     "last_name": lastName,
@@ -31,7 +31,7 @@ export const registerUser = async (firstName, lastName, email, password) => {
     "password": password
   }
   try {
-    const response = await axiosPost(url, data);
+    const response = await axiosPost(url + "/register", data);
     return response;
   } catch (error) {
     if (error.response) {
@@ -46,9 +46,8 @@ export const registerUser = async (firstName, lastName, email, password) => {
 
 // * GET request to /api/user
 export const getUser = async () => {
-  const url = "http://localhost:3001/api/user";
   try {
-    const response = await axiosGet(url);
+    const response = await axiosGet(url + "/user");
     return response;
   } catch (error) {
     if (error.response) {
@@ -63,13 +62,12 @@ export const getUser = async () => {
 
 // * POST request to /api/address
 export const saveAccountToDB = async (address, name) => {
-  const url = "http://localhost:3001/api/account";
   const data = {
     address: address,
     name: name
   }
   try {
-    const response = await axiosPost(url, data);
+    const response = await axiosPost(url + "/account", data);
     return response;
   } catch (error) {
     if (error.response) {

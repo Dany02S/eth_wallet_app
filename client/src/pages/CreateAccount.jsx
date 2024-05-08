@@ -38,19 +38,17 @@ function CreateAccount() {
         <div className='form-container'>
             <h1>Create Account</h1>
             <div className='form-div'>Address: {account.address}</div>
-            {!saved && <> 
+
+            {!saved ? <> 
                 <input className='form-input' type='password' placeholder='Password for encrypting private key' value={accountPassword} onChange={(e) => setAccountPassword(e.target.value)} />
                 <input className='form-input' type="text"  placeholder="Name of the account" value={accountName} onChange={(e) => setAccountName(e.target.value)} />
-            </>}
-
-            {saved ? <>
+                <button className='form-button' onClick={() => saveAddress()}>Save</button>
+            </> : <>
                 <div className='form-success'>Private Key is stored</div>
                 {error ? <div className='form-success'>{error}</div> : <></>}
-            <div className='form-div'>Balance: {balance} ETH</div></> : <></>}
-            {!saved ? <button className='form-button' onClick={() => saveAddress()}>Save</button>
-            : <button className='form-button' onClick={() => navigate('/user')}>Done</button>}
-            
-
+                <div className='form-div'>Balance: {balance} ETH</div>
+                <button className='form-button' onClick={() => navigate('/user')}>Done</button>
+            </>}
         </div>
     );
 }
