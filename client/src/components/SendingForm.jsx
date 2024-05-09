@@ -3,7 +3,7 @@ import { Web3 } from 'web3';
 import PropTypes from 'prop-types';
 import { postTransaction } from '../services/fetching';
 
-const SendingForm = ({ balance, address, setBalances, key, transactions }) => {
+const SendingForm = ({ balance, address, transactions, setBalanceChange, balanceChange }) => {
     const [amount, setAmount] = useState(0);
     const [receiver, setReceiver] = useState('');
     const [password, setPassword] = useState('');
@@ -38,7 +38,6 @@ const SendingForm = ({ balance, address, setBalances, key, transactions }) => {
         const value = e.target.value;
         setReceiver(value);
     }
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -77,23 +76,10 @@ const SendingForm = ({ balance, address, setBalances, key, transactions }) => {
             }
             await postTransaction(transactionHash, amount, address, receiver );
             setSuccess('Transaction was successful!');
-
-            const balance = await web3.eth.getBalance(address);
-            const newBalance = web3.utils.fromWei(balance, 'ether');
-
-            setBalances(prev => {
-                const newBalances = [...prev];
-                newBalances[key] = newBalance;
-                return newBalances;
-            });
-            // Reset the form
-            
-
+            setBalanceChange(!balanceChange);
             setReceiver('');
             setPassword('');
             setError('');
-            // Refresh the page
-            window.location.reload();
         } catch (error) {
             setError(error.message);
         }
@@ -103,6 +89,7 @@ const SendingForm = ({ balance, address, setBalances, key, transactions }) => {
         <form onSubmit={handleSubmit}>
             <input className='form-input' type="text" placeholder={'Amount, send max ' +  balance} onChange={(e) => handleAmount(e)} />            
             <input className='form-input' type="password" placeholder='Account password required to sign the transaction with private key' value={password} onChange={(e) => setPassword(e.target.value)} />
+
             <div className='form-inputs'>
                 {!newReceiver ?
                     <select className='form-input' value={receiver} onChange={(e) => handleReciever(e)}>
@@ -126,9 +113,9 @@ const SendingForm = ({ balance, address, setBalances, key, transactions }) => {
 SendingForm.propTypes = {
     balance: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
-    setBalances: PropTypes.func.isRequired,
-    key: PropTypes.number.isRequired,
-    transactions: PropTypes.array.isRequired
+    transactions: PropTypes.array.isRequired,
+    setBalanceChange: PropTypes.func.isRequired,
+    balanceChange: PropTypes.bool.isRequired
 };
 
 export default SendingForm;
