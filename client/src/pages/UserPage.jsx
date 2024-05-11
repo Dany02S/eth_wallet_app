@@ -19,7 +19,7 @@ function UserPage() {
   const [totalBalance, setTotalBalance] = useState(0);
   const [dollar, setDollar] = useState(null);
   const navigate = useNavigate();
-  const web3 = new Web3("http://localhost:7545");
+  const web3 = new Web3(import.meta.env.VITE_WEB3_PROVIDER_URL);
   
 
   useEffect(() => {
@@ -74,6 +74,7 @@ function UserPage() {
           setBalanceChange={setBalanceChange}
           setTotalBalance={setTotalBalance}
           dollar={dollar}
+          web3={web3}
         />
       ))}</>
 

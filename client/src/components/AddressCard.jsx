@@ -7,29 +7,22 @@ import { useEffect } from 'react';
 import TransactionCard from '../components/TransactionCard';
 
 
-const AddressCard = ({address, name, transactions, setBalanceChange, balanceChange, dollar}) => {
+const AddressCard = ({address, name, transactions, setBalanceChange, balanceChange, dollar, web3}) => {
     const [sendingForm, setSendingForm] = useState(false);
     const [transForm, setTransForm] = useState(false);
     const [balance, setBalance] = useState(null);
-    const web3 = new Web3("http://localhost:7545");
 
     useEffect(() => {
-        
         const fetchBalance = async () => {
-
             const getBalance = async () => {
                 const balance = await web3.eth.getBalance(address);
                 return parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)
             }
-
             const balance = await getBalance();
             setBalance(balance);
         }
         fetchBalance();
     }, [balanceChange]);
-
-
-    
 
     const transactionsFromAccount = (address) => {
         let tran =  transactions.filter(transaction => transaction.sender_address === address || transaction.receiver_address === address).map(transaction => {
@@ -42,16 +35,12 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
         return [...new Set(tran)];
     }
 
-    
-        
     return (
         <div className='address-container'>
 
             <div className='address-card'>
-                <div>
-                    <div>{name}</div>
-                    <div id='address'>{address}</div>
-                </div>
+                <div>{name}</div>
+                <div id='address'>{address}</div>
                 <div>Balance {balance} ETH <span id="date-form">{parseFloat(balance*dollar).toFixed(2)}$</span></div>
                 <div className="form-buttons">
                     <button className='form-button' onClick={() => setSendingForm(!sendingForm)}>Send ETH</button>
@@ -59,8 +48,7 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
                 </div>
             </div>
 
-            {sendingForm && 
-            <SendingForm 
+            {sendingForm && <SendingForm 
                 address={address} 
                 balance={balance}
                 setBalanceChange={setBalanceChange} 
@@ -69,12 +57,15 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
                 dollar={dollar}
             />}
 
-            {transForm &&
-            <div className='transaction-container'>
+            {transForm && <div className='transaction-container'>
+                {transactionsFromAccount(address).length === 0 && <div>No transactions yet!</div>}
                 {transactions.map((transaction, index) => {
                     if (transaction.sender_address === address || transaction.receiver_address === address) {
                         return (
-                            <TransactionCard key={index} transaction={transaction} address={address}/>
+                            <TransactionCard 
+                            key={index} 
+                            transaction={transaction} 
+                            address={address}/>
                         )
                     }
                 })}
@@ -89,7 +80,8 @@ AddressCard.propTypes = {
     transactions: PropTypes.array.isRequired,
     setBalanceChange: PropTypes.func.isRequired,
     balanceChange: PropTypes.bool.isRequired,
-    dollar: PropTypes.number.isRequired
+    dollar: PropTypes.number.isRequired,
+    web3: PropTypes.instanceOf(Web3).isRequired
 };
 
-export default AddressCard;
+export default AddressCard

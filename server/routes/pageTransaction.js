@@ -7,6 +7,7 @@ const authenticateUser = require('../middlewares/Authenticate');
 router.post('/', authenticateUser, async (req, res) => {
     try {
         const userId = req.userId;
+        
         const { error } = validation(req.body);
         if (error) return res.status(400).send({ message: error.details[0].message });
 

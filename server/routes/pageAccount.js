@@ -11,11 +11,13 @@ router.post('/', authenticateUser, async (req, res) => {
     try {
       const user = await User.findById(userId);
       if (!user) return res.status(404).json({ message: 'User not found' });
+
       const newAccount = new Account({
         user_id: userId,
         address: req.body.address,
         name: req.body.name
       });
+      
       await newAccount.save();
       res.status(200).json({ message: 'Address saved' });
     } catch (error) {

@@ -91,6 +91,7 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
 
     return (
         <form onSubmit={handleSubmit}>
+            
             <div className='form-buttons'>
                 <input className='form-input' type="text" placeholder={'Amount'} onChange={(e) => handleAmount(e)} />
                 <div className='form-input' id='dollar-form'>{parseFloat(amount*dollar).toFixed(4)}$</div>

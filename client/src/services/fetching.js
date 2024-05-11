@@ -1,6 +1,6 @@
 import { axiosPost, axiosGet } from "./fetchMethods";
 
-const url = "http://localhost:3001/api";
+const url = import.meta.env.VITE_BACKEND_URL
 
 // * GET request for the live price of Ethereum
 export const getEthereumPrice = async () => {
