@@ -7,14 +7,21 @@ import { useEffect } from 'react';
 import TransactionCard from '../components/TransactionCard';
 
 
-const AddressCard = ({address, name, transactions, setBalanceChange, balanceChange }) => {
+const AddressCard = ({address, name, transactions, setBalanceChange, balanceChange, dollar}) => {
     const [sendingForm, setSendingForm] = useState(false);
     const [transForm, setTransForm] = useState(false);
     const [balance, setBalance] = useState(null);
     const web3 = new Web3("http://localhost:7545");
 
     useEffect(() => {
+        
         const fetchBalance = async () => {
+
+            const getBalance = async () => {
+                const balance = await web3.eth.getBalance(address);
+                return parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)
+            }
+
             const balance = await getBalance();
             setBalance(balance);
         }
@@ -22,14 +29,10 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
     }, [balanceChange]);
 
 
-    const getBalance = async () => {
-        const balance = await web3.eth.getBalance(address);
-        return parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)
-    }
+    
 
     const transactionsFromAccount = (address) => {
-        // Return the other addresses where the receiver_address or sender_address is equal to the address
-        const tran =  transactions.filter(transaction => transaction.sender_address === address || transaction.receiver_address === address).map(transaction => {
+        let tran =  transactions.filter(transaction => transaction.sender_address === address || transaction.receiver_address === address).map(transaction => {
             if (transaction.sender_address === address) {
                 return transaction.receiver_address;
             } else {
@@ -37,7 +40,7 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
             }
         });
         return [...new Set(tran)];
-      }
+    }
 
     
         
@@ -49,9 +52,8 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
                     <div>{name}</div>
                     <div id='address'>{address}</div>
                 </div>
-                <div>Balance {balance} ETH</div>
+                <div>Balance {balance} ETH <span id="date-form">{parseFloat(balance*dollar).toFixed(2)}$</span></div>
                 <div className="form-buttons">
-
                     <button className='form-button' onClick={() => setSendingForm(!sendingForm)}>Send ETH</button>
                     <button className='form-button' onClick={() => setTransForm(!transForm)}>View history</button>
                 </div>
@@ -64,6 +66,7 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
                 setBalanceChange={setBalanceChange} 
                 balanceChange={balanceChange}
                 transactions={transactionsFromAccount(address)}
+                dollar={dollar}
             />}
 
             {transForm &&
@@ -76,8 +79,6 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
                     }
                 })}
             </div>}
-
-            {}
         </div>
     );
 };
@@ -87,7 +88,8 @@ AddressCard.propTypes = {
     address: PropTypes.string.isRequired,
     transactions: PropTypes.array.isRequired,
     setBalanceChange: PropTypes.func.isRequired,
-    balanceChange: PropTypes.bool.isRequired
+    balanceChange: PropTypes.bool.isRequired,
+    dollar: PropTypes.number.isRequired
 };
 
 export default AddressCard;

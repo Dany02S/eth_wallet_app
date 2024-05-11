@@ -54,6 +54,9 @@
 .form-button:hover {
     --interface-color: var(--interface-hover);
 }
+.form-button > img {
+    width: 20px;
+}
 
 .form-buttons {
     display: flex;
@@ -114,4 +117,8 @@ form {
 }
 .nav-link:hover {
     text-decoration: underline;
+}
+
+#dollar-form {
+    color: rgb(122, 122, 122);
 }

@@ -2,6 +2,22 @@ import { axiosPost, axiosGet } from "./fetchMethods";
 
 const url = "http://localhost:3001/api";
 
+// * GET request for the live price of Ethereum
+export const getEthereumPrice = async () => {
+  try {
+    const response = await axiosGet("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,EUR,CNY,JPY,GBP");
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+
 // * POST request to /api/login
 export const loginUser = async (email, password) => {
   const data = {
@@ -102,4 +118,4 @@ export const postTransaction = async (transaction_hash, amount, sender_address, 
     }
   }
 }
-  
+

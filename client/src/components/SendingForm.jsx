@@ -3,35 +3,15 @@ import { Web3 } from 'web3';
 import PropTypes from 'prop-types';
 import { postTransaction } from '../services/fetching';
 
-const SendingForm = ({ balance, address, transactions, setBalanceChange, balanceChange }) => {
-    const [amount, setAmount] = useState(0);
+const SendingForm = ({ balance, address, transactions, setBalanceChange, balanceChange, dollar }) => {
     const [receiver, setReceiver] = useState('');
     const [password, setPassword] = useState('');
-
+    const [amount, setAmount] = useState(0);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
     const [newReceiver, setNewReceiver] = useState(false);
     const web3 = new Web3("http://localhost:7545");
-
-    const handleAmount = (e) => {
-        e.preventDefault();
-        const value = e.target.value;
-        if (value === '') {
-            setAmount(0);
-            return;
-        }
-        if (isNaN(value)) {
-            setError('Please enter a valid number!');
-            return;
-        }
-        if (parseFloat(value) > parseFloat(balance)) {
-            setError('You do not have enough balance!');
-            return;
-        }
-        setAmount(value);
-        setError('');
-    }
 
     const handleReciever = (e) => {
         e.preventDefault();
@@ -66,35 +46,57 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
         try {
             const signedTransaction = await web3.eth.accounts.signTransaction(transaction, privateKey);
             let transactionHash = '';
-            const receipt = await web3.eth.sendSignedTransaction(signedTransaction.rawTransaction).
-            on('transactionHash', (hash) => {
+            await web3.eth.sendSignedTransaction(signedTransaction.rawTransaction)
+            .on('transactionHash', (hash) => {
                 transactionHash = hash.split('x')[1];
+            })
+            .on('error', (error) => {
+                setError(error.message);
             });
-            if (receipt.status === false) {
-                setError('Transaction failed!');
-                return;
-            }
+
             await postTransaction(transactionHash, amount, address, receiver );
+
             setSuccess('Transaction was successful!');
-            setBalanceChange(!balanceChange);
             setReceiver('');
             setPassword('');
             setError('');
+            setBalanceChange(!balanceChange);
         } catch (error) {
             setError(error.message);
         }
     }
 
+    const handleAmount = (e) => {
+        e.preventDefault();
+        const value = e.target.value;
+        if (isNaN(value)) {
+            setError('Amount must be a number!');
+            return;
+        }
+
+        if (parseFloat(value) > parseFloat(balance)) {
+            setError('You do not have enough balance!');
+            return;
+        }
+
+        setAmount(value);
+        setError('');
+    }
+
     return (
         <form onSubmit={handleSubmit}>
-            <input className='form-input' type="text" placeholder={'Amount, send max ' +  balance} onChange={(e) => handleAmount(e)} />            
+            <div className='form-inputs'>
+                <input className='form-input' type="text" placeholder={'Amount'} onChange={(e) => handleAmount(e)} />
+                <div className='form-input' id='dollar-form'>{parseFloat(amount*dollar).toFixed(4)}$</div>
+            </div>
+
             <input className='form-input' type="password" placeholder='Account password required to sign the transaction with private key' value={password} onChange={(e) => setPassword(e.target.value)} />
 
             <div className='form-inputs'>
                 {!newReceiver ?
                     <select className='form-input' value={receiver} onChange={(e) => handleReciever(e)}>
                         <option value=''>Select receiver from your history</option>
-                        {transactions.map((transaction, index) => (
+                        {transactions.reverse().map((transaction, index) => (
                             <option key={index} value={transaction}>{transaction}</option>
                         ))}
                     </select>
@@ -115,7 +117,8 @@ SendingForm.propTypes = {
     address: PropTypes.string.isRequired,
     transactions: PropTypes.array.isRequired,
     setBalanceChange: PropTypes.func.isRequired,
-    balanceChange: PropTypes.bool.isRequired
+    balanceChange: PropTypes.bool.isRequired,
+    dollar: PropTypes.number.isRequired,
 };
 
 export default SendingForm;
