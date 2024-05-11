@@ -7,11 +7,19 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
     const [receiver, setReceiver] = useState('');
     const [password, setPassword] = useState('');
     const [amount, setAmount] = useState(0);
+    const [totalTransactionCost, setTotalTransactionCost] = useState(0);
+
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
     const [newReceiver, setNewReceiver] = useState(false);
     const web3 = new Web3("http://localhost:7545");
+
+    const calculateTransactionCost = (amount, gasPrice) => {
+        const gasLimit = 21000; // Adott gázlimit
+        const transactionCost = (gasLimit * gasPrice) / 10**9; // Összköltség számítása ETH-ben
+        setTotalTransactionCost(transactionCost + parseFloat(amount));
+    }
 
     const handleReciever = (e) => {
         e.preventDefault();
@@ -69,13 +77,17 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
     const handleAmount = (e) => {
         e.preventDefault();
         const value = e.target.value;
+        calculateTransactionCost(value, 10);
         if (isNaN(value)) {
             setError('Amount must be a number!');
             return;
         }
-
+        if (parseFloat(totalTransactionCost) > parseFloat(balance) && parseFloat(value) <= parseFloat(balance)){
+            setError('You do not have ETH for paying the transaction cost!');
+            return;
+        }
         if (parseFloat(value) > parseFloat(balance)) {
-            setError('You do not have enough balance!');
+            setError('You do not have enough ETH for the transaction!');
             return;
         }
 
@@ -86,8 +98,11 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
     return (
         <form onSubmit={handleSubmit}>
             <div className='form-inputs'>
-                <input className='form-input' type="text" placeholder={'Amount'} onChange={(e) => handleAmount(e)} />
-                <div className='form-input' id='dollar-form'>{parseFloat(amount*dollar).toFixed(4)}$</div>
+                <div className='form-buttons'>
+                    <input className='form-input' type="text" placeholder={'Amount'} onChange={(e) => handleAmount(e)} />
+                    <div className='form-input' id='eth-form'>{parseFloat(totalTransactionCost).toFixed(6)} ETH</div>
+                </div>
+                <div className='form-input' id='dollar-form'>{parseFloat(totalTransactionCost*dollar).toFixed(4)}$</div>
             </div>
 
             <input className='form-input' type="password" placeholder='Account password required to sign the transaction with private key' value={password} onChange={(e) => setPassword(e.target.value)} />
