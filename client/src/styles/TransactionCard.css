@@ -1,0 +1,35 @@
+.transaction-container {
+  width: 100%;
+  padding: 10px;
+}
+
+.transaction-info {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.transaction-info img {
+  width: 20px;
+  height: 20px;
+}
+#sending-form {
+  font-size: small;
+}
+
+#amount-form {
+  font-size: medium;
+  width: 10%;
+  margin-left: 3%;
+}
+
+#date-form {
+  color: #9b9b9b;
+  margin-top: 10px;
+  font-size: small;
+  margin-left: 2%;
+}

@@ -6,15 +6,16 @@ import '../styles/Forms.css'
 function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
     const [loginError, setLoginError] = useState('')
+    
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await loginUser(email, password)
-            localStorage.setItem('token', response.token)
-            localStorage.setItem('user', response.user)
+            const res = await loginUser(email, password)
+            localStorage.setItem('token', res.token)
             navigate('/user')
         } catch (error) {
             setLoginError(error.message)
@@ -26,7 +27,9 @@ function Login() {
             <form onSubmit={handleSubmit}>
                 <input className='form-input' type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
                 <input className='form-input' type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+
                 {loginError && <div className='form-error'>{loginError}</div>}
+                
                 <button className='form-button' type='submit'>Login</button>
             </form>
             <p className='nav-text'>Don`t have an account? <span className='nav-link' onClick={() => navigate('/register')}>Register</span></p>

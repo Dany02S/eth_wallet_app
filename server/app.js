@@ -8,6 +8,9 @@ const connection = require('./db')
 const loginRouter = require('./routes/loginUser')
 const registerRouter = require('./routes/registerUser')
 const pageRouter = require('./routes/pageUser')
+const accountRouter = require('./routes/pageAccount')
+const transactionRouter = require('./routes/pageTransaction')
+
 
 // Middlewares
 connection()
@@ -18,6 +21,8 @@ app.use(cors())
 app.use('/api/login', loginRouter)
 app.use('/api/register', registerRouter)
 app.use('/api/user', pageRouter)
+app.use('/api/account', accountRouter)
+app.use('/api/transaction', transactionRouter)
 
 // Start server
 const PORT = process.env.PORT || 3001

@@ -20,8 +20,10 @@ router.post('/', async (req, res) => {
             email: req.body.email,
             password_hashed: hashedPassword
         }
-        await new User(new_user).save();
-        res.status(201).send({ message: 'User created, go log in!'});
+        const new_userm = await new User(new_user).save();
+        const token = new_userm.generateAuthToken(new_userm._id);
+        
+        res.status(201).send({ message: 'User created, go create first address!', token: token });
     } catch (error) {
         res.status(500).send({ message: error.message});
     }

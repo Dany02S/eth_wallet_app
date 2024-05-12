@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const passwordComplexity = require('joi-password-complexity');
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 
@@ -13,7 +12,7 @@ const userSchema = new mongoose.Schema({
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}
 });
-const walletSchema = new mongoose.Schema({
+const accountSchema = new mongoose.Schema({
     user_id: {type: mongoose.Schema.Types.ObjectId, required: true},
     address: {type: String, required: true},
     name: {type: String, required: true},
@@ -22,7 +21,6 @@ const walletSchema = new mongoose.Schema({
 });
 const transactionSchema = new mongoose.Schema({
     user_id: {type: mongoose.Schema.Types.ObjectId, required: true},
-    wallet_id: {type: mongoose.Schema.Types.ObjectId, required: true},
     transaction_hash: {type: String, required: true},
     amount: {type: Number, required: true},
     sender_address: {type: String, required: true},
@@ -37,10 +35,10 @@ userSchema.methods.generateAuthToken = function() {
 
 // Create models for the schemas
 const User = mongoose.model('users', userSchema);
-const Wallet = mongoose.model('wallets', walletSchema);
+const Account = mongoose.model('accounts', accountSchema);
 const Transaction = mongoose.model('transactions', transactionSchema);
 
 // Export the models
-module.exports = { User, Wallet, Transaction };
+module.exports = { User, Account, Transaction };
 
 
