@@ -24,3 +24,12 @@
     width: 100%;
     gap: 10px;
 }
+
+.form-labels {
+    width: 100%;
+    font-size: small;
+    color: #9b9b9b;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+}

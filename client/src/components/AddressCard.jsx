@@ -39,7 +39,7 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
         <div className='address-container'>
 
             <div className='address-card'>
-                <div>{name}</div>
+                <div><b>{name}</b></div>
                 <div id='address'>{address}</div>
                 <div>Balance {balance} ETH <span id="date-form">{parseFloat(balance*dollar).toFixed(2)}$</span></div>
                 <div className="form-buttons">

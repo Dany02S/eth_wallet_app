@@ -18,7 +18,7 @@ function TransactionCard({ transaction, index, address }) {
             <div id='date-form'>{convertDateFormat(transaction.created_at)}</div>
             <div className='transaction-info'>
                 <p id='sending-form'>Sender: {transaction.sender_address}<br/>  Reciever:{transaction.receiver_address}</p>
-                <img src={transaction.sender_address === address ? '../../public/down.png' : '../../public/up.png'} alt='transaction'/>
+                <img src={transaction.sender_address === address ? '/down.png' : '/up.png'} alt='transaction'/>
                 <p id='amount-form'>{transaction.amount} ETH</p>
             </div>
         </div>
