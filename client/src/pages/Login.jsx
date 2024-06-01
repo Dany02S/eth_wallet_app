@@ -8,6 +8,7 @@ function Login() {
     const [password, setPassword] = useState('')
 
     const [loginError, setLoginError] = useState('')
+    const [loginSuccess, setLoginSuccess] = useState('')
     
     const navigate = useNavigate()
 
@@ -15,8 +16,12 @@ function Login() {
         e.preventDefault()
         try {
             const res = await loginUser(email, password)
-            localStorage.setItem('token', res.token)
-            navigate('/user')
+            // If the login is successful, the user is redirected to the 2FA page and pass the res.user_id
+            setLoginSuccess(res.message)
+            localStorage.setItem('user_id', res.user_id)
+            setTimeout(() => {
+                navigate('/twofactor')
+            }, 2000)
         } catch (error) {
             setLoginError(error.message)
         }
@@ -29,8 +34,8 @@ function Login() {
                 <input className='form-input' type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
 
                 {loginError && <div className='form-error'>{loginError}</div>}
-                
-                <button className='form-button' type='submit'>Login</button>
+                {loginSuccess ? <div className='form-success'>{loginSuccess}</div>
+                : <button className='form-button' type='submit'>Login</button>}
             </form>
             <p className='nav-text'>Don`t have an account? <span className='nav-link' onClick={() => navigate('/register')}>Register</span></p>
         </div>

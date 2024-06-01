@@ -16,8 +16,8 @@ router.post('/', async (req, res) => {
 
         const token = user.generateAuthToken(user._id);
         const resp = {
-            token: token,
-            message: "Login successful"
+            user_id: user._id,
+            message: "Login successful, redirectiong to the 2FA"
         }
         res.status(200).send(resp);
     } catch (error) {

@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './styles/App.css'
 import CreateAccount from './pages/CreateAccount'
+import TwoFactor from './pages/TwoFactor'
 
 
 
@@ -21,6 +22,7 @@ function App() {
             <Route path='/register' element={<Register />} />
             <Route path='/user' element={<UserPage />} />
             <Route path='/create-account' element={<CreateAccount />} />
+            <Route path='/twofactor' element={<TwoFactor />} />
             <Route path='*' element={<h1>Not Found</h1>} />
           </Routes>
       </BrowserRouter>
