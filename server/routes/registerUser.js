@@ -18,7 +18,8 @@ router.post('/', async (req, res) => {
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             email: req.body.email,
-            password_hashed: hashedPassword
+            password_hashed: hashedPassword,
+            two_factor_enabled: req.body.two_factor_enabled
         }
         const new_userm = await new User(new_user).save();
         const token = new_userm.generateAuthToken(new_userm._id);
@@ -33,7 +34,8 @@ const validation = (data) => {
         first_name: Joi.string().required(),
         last_name: Joi.string().required(),
         email: Joi.string().email().required(),
-        password: Joi.string().required()
+        password: Joi.string().required(),
+        two_factor_enabled: Joi.boolean()
     });
     return schema.validate(data);
 }

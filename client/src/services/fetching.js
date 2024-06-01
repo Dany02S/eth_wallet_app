@@ -39,12 +39,13 @@ export const loginUser = async (email, password) => {
 };
 
 // * POST request to /api/register
-export const registerUser = async (firstName, lastName, email, password) => {
+export const registerUser = async (firstName, lastName, email, password, twoFactor) => {
   const data = {
     "first_name": firstName,
     "last_name": lastName,
     "email": email,
-    "password": password
+    "password": password,
+    "two_factor_enabled": twoFactor
   }
   try {
     const response = await axiosPost(url + "/register", data);
