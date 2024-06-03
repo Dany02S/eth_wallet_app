@@ -16,3 +16,13 @@
     font-size: medium;
     color: #808080;
 }
+
+.twofa-switch {
+    display: flex;
+    justify-content:flex-end;
+    width: 100%;
+    align-items: center;
+
+    
+
+}

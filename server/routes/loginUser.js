@@ -14,12 +14,12 @@ router.post('/', async (req, res) => {
         const validPassword = await bcrypt.compare(req.body.password, user.password_hashed);
         if (!validPassword) return res.status(404).send({ message: "Invalid password" });
 
-        const token = user.generateAuthToken(user._id);
-        const resp = {
-            user_id: user._id,
-            message: "Login successful, redirectiong to the 2FA"
+        if (user.two_factor_enabled) {
+            return res.status(200).send({ user_id: user._id, message: "Login successful, redirectiong to the 2FA" });
+        } else {
+            const token = user.generateAuthToken(user._id);
+            return res.status(200).send({ token: token, user_id: user._id, message: "Login successful" });
         }
-        res.status(200).send(resp);
     } catch (error) {
         res.status(500).send({ message: "Internal server error" });
     }

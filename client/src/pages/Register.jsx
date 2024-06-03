@@ -36,6 +36,7 @@ function Register() {
                 <input className='form-input' type='text' placeholder='Last Name' onChange={(e) => setLastName(e.target.value)} />
                 <input className='form-input' type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
                 <input className='form-input' type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+                <p className='nav-text' style={twoFactor ? {color: 'green'} : {color: 'gray'}}>{twoFactor ? '2FA Enabled' : '2FA Disabled'}</p>
                 <Switch className='form-switch' onChange={() => setTwoFactor(!twoFactor)} color='default' />
                 {registrationError && success === false && <div className='form-error'>{registrationError}</div>}
                 {success 

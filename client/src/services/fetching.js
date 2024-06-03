@@ -101,7 +101,24 @@ export const getingQRCode = async (user_id) => {
   }
 }
 
-
+// * POST request to /api/change2fa
+export const change2FA = async (twoFactor) => {
+  const data = {
+    "two_factor_enabled": twoFactor
+  }
+  try {
+    const response = await axiosPost(url + "/change2fa", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
 
 // * GET request to /api/user
 export const getUser = async () => {

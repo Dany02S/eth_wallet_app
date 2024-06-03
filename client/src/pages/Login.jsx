@@ -16,7 +16,11 @@ function Login() {
         e.preventDefault()
         try {
             const res = await loginUser(email, password)
-            // If the login is successful, the user is redirected to the 2FA page and pass the res.user_id
+            if (res.message === 'Login successful') {
+                localStorage.setItem('token', res.token)
+                localStorage.setItem('user_id', res.user_id)
+                navigate('/user')
+            }
             setLoginSuccess(res.message)
             localStorage.setItem('user_id', res.user_id)
             setTimeout(() => {
