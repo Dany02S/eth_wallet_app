@@ -137,10 +137,11 @@ export const getUser = async () => {
 }
 
 // * POST request to /api/address
-export const saveAccountToDB = async (address, name) => {
+export const saveAccountToDB = async (address, name, password) => {
   const data = {
     address: address,
-    name: name
+    name: name,
+    password: password
   }
   try {
     const response = await axiosPost(url + "/account", data);
@@ -157,7 +158,6 @@ export const saveAccountToDB = async (address, name) => {
 }
 
 // * POST request to /api/transaction
-
 export const postTransaction = async (transaction_hash, amount, sender_address, receiver_address) => {
   try {
     const data = {
@@ -167,6 +167,26 @@ export const postTransaction = async (transaction_hash, amount, sender_address, 
       receiver_address: receiver_address
     }
     const response = await axiosPost(url + "/transaction", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+
+// * POST request to /api/checkPassword
+
+export const checkPassword = async (password) => {
+  try {
+    const data = {
+      password: password
+    }
+    const response = await axiosPost(url + "/checkPassword", data);
     return response;
   } catch (error) {
     if (error.response) {

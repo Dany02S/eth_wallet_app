@@ -24,37 +24,38 @@ function UserPage() {
 
   const navigate = useNavigate();
   const web3 = new Web3(import.meta.env.VITE_WEB3_PROVIDER_URL);
+
+  const fetchBalances = async () => {
+    let sum = 0;
+    for (let account of accounts) {
+      const balance = await web3.eth.getBalance(account.address);
+      sum += parseFloat(web3.utils.fromWei(balance, 'ether'));
+    }
+    setTotalBalance(sum);
+  }
   
 
-  useEffect(() => {
-    const fetchBalance = async () => {
-      let sum = 0;
-      for (let account of accounts) {
-        const balance = await web3.eth.getBalance(account.address);
-        sum += parseFloat(web3.utils.fromWei(balance, 'ether'));
-      }
-      setTotalBalance(sum);
+  const fetchUser = async () => {
+    try {
+      const res = await getUser();
+      setUser(res.user);
+      setAccounts(res.accounts);
+      setTwoFactor(res.user.two_factor);
+      setTransactions(res.transactions.reverse());
+
+      const dollarPrice = await getEthereumPrice();
+      setDollar(dollarPrice.USD);
+
+      fetchBalances();
+
+    } catch (error) {
+      setError(error.message);
     }
+  }    
 
-    const fetchUser = async () => {
-      try {
-        const res = await getUser();
-        setUser(res.user);
-        setAccounts(res.accounts);
-        setTwoFactor(res.user.two_factor);
-        setTransactions(res.transactions.reverse());
-
-        const dollarPrice = await getEthereumPrice();
-        setDollar(dollarPrice.USD);
-
-        fetchBalance();
-
-      } catch (error) {
-        setError(error.message);
-      }
-    }    
+  useEffect(() => {
     fetchUser();
-  }, [balanceChange]);
+  }, [dollar, balanceChange]);
 
   const handleTwoFactorChange = async () => {
     try {
@@ -100,7 +101,6 @@ function UserPage() {
         />
       ))}</>
 
-      
     </div>
   );
 }

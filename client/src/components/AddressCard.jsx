@@ -80,7 +80,7 @@ AddressCard.propTypes = {
     transactions: PropTypes.array.isRequired,
     setBalanceChange: PropTypes.func.isRequired,
     balanceChange: PropTypes.bool.isRequired,
-    dollar: PropTypes.number.isRequired,
+    dollar: PropTypes.number,
     web3: PropTypes.instanceOf(Web3).isRequired
 };
 
