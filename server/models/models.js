@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: true},
     password_hashed: {type: String, required: true},
     two_factor_enabled: {type: Boolean, default: false},
+    two_factor_secret: {type: String, default: ''},
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}
 });

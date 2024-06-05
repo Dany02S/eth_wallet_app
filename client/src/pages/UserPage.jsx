@@ -54,6 +54,9 @@ function UserPage() {
   }    
 
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    }
     fetchUser();
   }, [dollar, balanceChange]);
 

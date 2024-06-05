@@ -19,12 +19,23 @@ router.post('/', async (req, res) => {
             last_name: req.body.last_name,
             email: req.body.email,
             password_hashed: hashedPassword,
+            two_factor_secret: '',
             two_factor_enabled: req.body.two_factor_enabled
         }
         const new_userm = await new User(new_user).save();
+
         const token = new_userm.generateAuthToken(new_userm._id);
-        
-        res.status(201).send({ message: 'User created, go create first address!', token: token });
+        if (req.body.two_factor_enabled) {
+            return res.status(201).send({ 
+                message: 'User created!',
+                user_id: new_userm._id,
+                token: token});
+        } else {
+            return res.status(201).send({ 
+                message: 'User created, scan your QR code for 2FA!',
+                user_id: new_userm._id, 
+                token: token});
+        }
     } catch (error) {
         res.status(500).send({ message: error.message});
     }

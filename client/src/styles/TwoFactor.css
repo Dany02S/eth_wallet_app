@@ -1,0 +1,48 @@
+.twofa-buttons {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 6fr 1fr;
+    grid-gap: 10px;
+}
+
+#qr-container h1 {
+    margin: 5px 5px;
+}
+
+#qr-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#auth-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    left: 20px;
+    top: 20px;
+}
+
+#auth-container img {
+    width: 25px;
+}
+
+#qr-img {
+    width: 25px;
+    right: 20px;
+    top: 20px;
+    position: absolute;
+    cursor: pointer;
+}
+
+#qr-img:hover {
+    opacity: 0.8;
+}
+#qr-img:active {
+    opacity: 0.6;
+}

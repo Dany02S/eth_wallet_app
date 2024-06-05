@@ -15,7 +15,9 @@ router.post('/', async (req, res) => {
         if (!validPassword) return res.status(404).send({ message: "Invalid password" });
 
         if (user.two_factor_enabled) {
-            return res.status(200).send({ user_id: user._id, message: "Login successful, redirectiong to the 2FA" });
+            return res.status(200).send({ 
+                user_id: user._id, 
+                message: "Login successful, redirectiong to the 2FA" });
         } else {
             const token = user.generateAuthToken(user._id);
             return res.status(200).send({ token: token, user_id: user._id, message: "Login successful" });

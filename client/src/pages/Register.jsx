@@ -20,9 +20,17 @@ function Register() {
         e.preventDefault()
         try {
             const res = await registerUser(firstName, lastName, email, password, twoFactor)
+            localStorage.setItem('user_id', res.user_id)
             setSuccess(true)
             setRegistrationError(res.message)
-            localStorage.setItem('token', res.token)
+            setTimeout(() => {
+                if (twoFactor) {
+                    navigate('/twofactor')
+                    return
+                }
+                localStorage.setItem('token', res.token)
+                navigate('/user')
+            }, 1000)
         } catch (error) {
             setRegistrationError(error.message)
         }
@@ -42,10 +50,7 @@ function Register() {
                 </div>
                 {registrationError && success === false && <div className='form-error'>{registrationError}</div>}
                 {success 
-                    ? <>
-                        <div className='form-success'>{registrationError}</div>
-                        <button onClick={() => navigate('/create-account')} className='form-button' type='button'>Create Account</button>
-                    </> 
+                    ? <div className='form-success'>{registrationError}</div>
                     : <button className='form-button' type='submit'>Register</button>}
             </form>
             <p className='nav-text'>Already have an account? <span className='nav-link' onClick={() => navigate('/login')}>Login</span></p>
