@@ -7,6 +7,7 @@ import '../styles/User.css';
 import AddressCard from '../components/AddressCard';
 import {Web3} from 'web3';
 import { Switch } from "@mui/material";
+import BalanceInfo from "../components/user_card/BalanceInfo";
 
 
 function UserPage() {
@@ -21,7 +22,9 @@ function UserPage() {
 
   const [totalBalance, setTotalBalance] = useState(0);
   const [dollar, setDollar] = useState(null);
+  
 
+  const [nav, setNav] = useState(0);
   const navigate = useNavigate();
   const web3 = new Web3(import.meta.env.VITE_WEB3_PROVIDER_URL);
 
@@ -50,14 +53,7 @@ function UserPage() {
     } catch (error) {
       setError(error.message);
     }
-  }    
-
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-    }
-    fetchUser();
-  }, [dollar, balanceChange]);
+  }
 
   const handleTwoFactorChange = async () => {
     try {
@@ -71,25 +67,37 @@ function UserPage() {
     }
   };
 
-  
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    }
+    fetchUser();
+  }, [dollar, balanceChange]);
 
   return (
     <div className="user-container">
       
       <div className="form-container">
-        <div className="twofa-switch">
-          <p className="nav-text" style={{color: twoFactor ? "green" : "gray"}}>2FA</p>
-          <Switch className="form-switch" onChange={handleTwoFactorChange} color="default" checked={twoFactor} />
-        </div>
-        {error ? <div className="form-error">{error}</div> 
-        :<>
-          <h1 className="user-data-show">Welcome {user?.first_name} {user?.last_name}</h1>
-          <h2 className="user-data-show">{parseFloat(totalBalance).toFixed(6)} ETH</h2>
-          <h3 className="user-data-show" id="real-price">{parseFloat(dollar*totalBalance).toFixed(2)}$</h3>
-          <div className="form-buttons">
-            <button className="form-button" onClick={() => navigate("/create-account")}>Create new account</button>
+        <div className="user-navbar">
+          <div className="user-page-menu">
+            <img src="user.png" alt="" onClick={() => setNav(0)} />
+            <img src="chart.png" alt="" onClick={() => setNav(1)} />
+            <img src="newspaper.png" alt="" onClick={() => setNav(2)} />
           </div>
-        </>}
+          <div className="twofa-switch">
+            <p className="nav-text" style={{color: twoFactor ? "green" : "gray"}}>2FA</p>
+            <Switch className="form-switch" onChange={handleTwoFactorChange} color="default" checked={twoFactor} />
+          </div>
+        </div>
+        {error 
+        ? <div className="form-error">{error}</div> 
+        : 
+        nav === 0
+        ? <BalanceInfo user={user} totalBalance={totalBalance} dollar={dollar} navigate={navigate} />
+        : nav === 1
+        ? <h1>On progress</h1>
+        : null
+        }
       </div>
 
       <>{accounts.map((account, index) => (

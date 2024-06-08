@@ -20,6 +20,38 @@
 .twofa-switch {
     display: flex;
     justify-content:flex-end;
+    align-items: center;
     width: 100%;
     align-items: center;
+}
+
+.user-navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+
+}
+
+.user-page-menu {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+    width: 100%;
+    gap: 1rem;
+}
+
+.user-page-menu img {
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+    opacity: 0.75;
+}
+.user-page-menu img:hover {
+    opacity: 0.55;
+}
+.user-page-menu img:active {
+    opacity: 0.4;
 }

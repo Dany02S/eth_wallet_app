@@ -5,11 +5,14 @@ import SendingForm from './SendingForm';
 import { Web3 } from 'web3';
 import { useEffect } from 'react';
 import TransactionCard from '../components/TransactionCard';
+import TransactionChart from './TransactionChart';
 
 
 const AddressCard = ({address, name, transactions, setBalanceChange, balanceChange, dollar, web3}) => {
     const [sendingForm, setSendingForm] = useState(false);
     const [transForm, setTransForm] = useState(false);
+    const [chartShow, setChartShow] = useState(false);
+
     const [balance, setBalance] = useState(null);
     const [showPrivateKey, setShowPrivateKey] = useState(false);
     const [password, setPassword] = useState('');
@@ -58,11 +61,14 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
 
     return (
         <div className='address-container'>
-
-            <div className='address-card'>
+            <div className='address-command-container'>
+                <img src="chart.png" className='address-img' alt="" title='Show Transaction chart' onClick={() => setChartShow(!chartShow)}/>
+                <img src="key.png" className='address-img' alt="" title='Show Private key' onClick={() => setShowPrivateKey(!showPrivateKey)}/>
+            </div>
+            
+            {!chartShow && <div className='address-card'>
                 <div id='name-container'>
                     <b>{name}</b>
-                    <img src="key.png" className='address-img' alt="" title='Show Private key' onClick={() => setShowPrivateKey(!showPrivateKey)}/>
                 </div>
                 <div>Balance {balance} ETH <span id="date-form">{parseFloat(balance*dollar).toFixed(2)}$</span></div>
                 <div id='addresse-container'>
@@ -80,10 +86,13 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
                     }
                 </div>
                 <div className="form-buttons">
-                    <button className='form-button' onClick={() => setSendingForm(!sendingForm)}>Send ETH</button>
-                    <button className='form-button' onClick={() => setTransForm(!transForm)}>View history</button>
+                    <button className='form-button' onClick={() => {setSendingForm(!sendingForm); setTransForm(false)}}>Send ETH</button>
+                    <button className='form-button' onClick={() => {setTransForm(!transForm); setSendingForm(false)}}>View history</button>
                 </div>
             </div>
+            }   
+            
+            {chartShow && <TransactionChart transactions={transactions} balance={balance} address={address} />}
 
             {sendingForm && <SendingForm 
                 address={address} 
