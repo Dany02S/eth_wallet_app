@@ -14,7 +14,11 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
     const [chartShow, setChartShow] = useState(false);
 
     const [balance, setBalance] = useState(null);
+
     const [showPrivateKey, setShowPrivateKey] = useState(false);
+    const [privateKeyUnlocked, setPrivateKeyUnlocked] = useState(false)
+    const [privateKey, setPrivateKey] = useState('');
+
     const [password, setPassword] = useState('');
 
     useEffect(() => {
@@ -48,10 +52,12 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
             try {
             const dencryptedAccount = await web3.eth.accounts.decrypt(account, password);
             const privateKeyInput = document.getElementById('privateKey-input');
-            privateKeyInput.value = dencryptedAccount.privateKey;
-            privateKeyInput.type = 'text';
-            privateKeyInput.readOnly = true;
-
+            privateKeyInput.value = '';
+            setPrivateKey(dencryptedAccount.privateKey);
+            setPrivateKeyUnlocked(true);
+            setTimeout(() => {
+                setPrivateKeyUnlocked(false);
+            }, 10000);
         } catch (error) {
             return;
         }
@@ -66,7 +72,7 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
                 <img src="key.png" className='address-img' alt="" title='Show Private key' onClick={() => setShowPrivateKey(!showPrivateKey)}/>
             </div>
             
-            {!chartShow && <div className='address-card'>
+            {!chartShow ? <div className='address-card'>
                 <div id='name-container'>
                     <b>{name}</b>
                 </div>
@@ -77,9 +83,14 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
                 </div>
                 <div id='private-key-container'>
                     {showPrivateKey ?
-                        <div className='form-inputs'>
+                        !privateKeyUnlocked 
+                        ? <div className='form-inputs'>
                             <input className='form-input' id='privateKey-input' type="password" placeholder='Enter code to get private key' onChange={(e) => setPassword(e.target.value)}/>
                             <button className='form-button' onClick={handleGetPrivateKey}>Get Private Key</button>
+                        </div>
+                        : <div id='addresse-container'>
+                            <div id='address'>Private key: {privateKey}</div>
+                            <img className='address-img' src="copy.png" title='Copy Private Key' alt="" onClick={() => navigator.clipboard.writeText(privateKey)}/>
                         </div>
                         :
                         <></>
@@ -90,9 +101,7 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
                     <button className='form-button' onClick={() => {setTransForm(!transForm); setSendingForm(false)}}>View history</button>
                 </div>
             </div>
-            }   
-            
-            {chartShow && <TransactionChart transactions={transactions} balance={balance} address={address} />}
+            : chartShow && <TransactionChart transactions={transactions} balance={balance} address={address} />}
 
             {sendingForm && <SendingForm 
                 address={address} 

@@ -67,6 +67,10 @@ function UserPage() {
     }
   };
 
+  const filterTransactions = (address) => {
+    return transactions.filter(transaction => transaction.sender_address === address || transaction.receiver_address === address);
+  }
+
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/login");
@@ -105,7 +109,7 @@ function UserPage() {
           key={index} 
           name={account.name} 
           address={account.address}
-          transactions={transactions} 
+          transactions={filterTransactions(account.address)} 
           balanceChange={balanceChange}
           setBalanceChange={setBalanceChange}
           setTotalBalance={setTotalBalance}

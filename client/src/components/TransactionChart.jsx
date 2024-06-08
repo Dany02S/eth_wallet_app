@@ -97,8 +97,8 @@ const TransactionChart = ({ transactions, balance, address }) => {
 
     return (
         <>
+            {transactions.length === 0 ? <h1>No transactions yet!</h1> : <></>}
             <canvas ref={canvasRef} id="myChart"></canvas>
-            
         </>
     );
 }

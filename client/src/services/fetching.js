@@ -157,6 +157,26 @@ export const saveAccountToDB = async (address, name, password) => {
   }
 }
 
+// * POST request to /api/restoreAccount
+export const restoreAccount = async (password, address) => {
+  const data = {
+    password: password,
+    address: address
+  }
+  try {
+    const response = await axiosPost(url + "/restoreAccount", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+
 // * POST request to /api/transaction
 export const postTransaction = async (transaction_hash, amount, sender_address, receiver_address) => {
   try {

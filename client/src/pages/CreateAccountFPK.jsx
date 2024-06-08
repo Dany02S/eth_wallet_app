@@ -1,24 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Web3 from 'web3';
 import { useNavigate } from 'react-router-dom';
-import { saveAccountToDB } from '../services/fetching';
+import { restoreAccount } from '../services/fetching';
 
-function CreateAccount() {
+function CreateAccountFPK() {
     const [saved, setSaved] = useState(false);
     const [balance, setBalance] = useState('');
     const [error, setError] = useState(null);
-    const [account, setAccount] = useState({});
     const [accountPassword, setAccountPassword] = useState('');
-    const [accountName, setAccountName] = useState('');
+    const [accountKey, setAccountKey] = useState('');
 
     const navigate = useNavigate();
     const web3 = new Web3(import.meta.env.VITE_WEB3_PROVIDER_URL);
-    
-
-    useEffect(() => {
-        const account = web3.eth.accounts.create();
-        setAccount(account);
-    }, []);
 
     async function getBalance(account) {
         const balance = await web3.eth.getBalance(account.address);
@@ -27,12 +20,14 @@ function CreateAccount() {
 
     async function saveAddress() {
         try {
+            const account = web3.eth.accounts.privateKeyToAccount(accountKey);
+            const res = await restoreAccount(accountPassword, account.address);
+            console.log(res.message);
             setBalance(await getBalance(account));
-            await saveAccountToDB(account.address, accountName, accountPassword);
             const encryptedAccount = await web3.eth.accounts.encrypt(account.privateKey, accountPassword);
             localStorage.setItem(account.address, JSON.stringify(encryptedAccount));
             setSaved(true);
-            setError(null);
+            setError(account.address);
         } catch (error) {
             setError(error.message);
         }
@@ -40,15 +35,10 @@ function CreateAccount() {
 
     return (
         <div className='form-container'>
-            <div className='address-command-container'>
-                <img src="key.png" className='address-img' title='Reset account' alt="" onClick={() => navigate('/create-account-fpk')} />
-            </div>
-            <h1>Create Account</h1>
-            <div className='form-div'>Address: {account.address}</div>
-
+            <h1>Restore Account with Private key</h1>
             {!saved ? <> 
                 <input className='form-input' type='password' placeholder='Enter your user account password for authentication' value={accountPassword} onChange={(e) => setAccountPassword(e.target.value)} />
-                <input className='form-input' type="text"  placeholder="Name of the account" value={accountName} onChange={(e) => setAccountName(e.target.value)} />
+                <input className='form-input' type="text"  placeholder="Enter private key" onChange={(e) => setAccountKey(e.target.value)} />
                 {error ? <div className='form-error'>{error}</div> : <></>}
                 <button className='form-button' onClick={() => saveAddress()}>Save</button>
             </> : <>
@@ -57,10 +47,8 @@ function CreateAccount() {
                 <div className='form-div'>Balance: {balance} ETH</div>
                 <button className='form-button' onClick={() => navigate('/user')}>Done</button>
             </>}
-
-            {/* Show the error message */}
         </div>
     );
 }
 
-export default CreateAccount;
+export default CreateAccountFPK;

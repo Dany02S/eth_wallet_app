@@ -13,6 +13,7 @@ const transactionRouter = require('./routes/pageTransaction')
 const qrcodeRouter = require('./routes/qrcodeUser')
 const verifyRouter = require('./routes/verifyUser')
 const change2faRouter = require('./routes/change2faUser')
+const restoreAccountRouter = require('./routes/restoreAccount')
 
 
 // Middlewares
@@ -29,6 +30,7 @@ app.use('/api/transaction', transactionRouter)
 app.use('/api/qrcode', qrcodeRouter)
 app.use('/api/verify', verifyRouter)
 app.use('/api/change2fa', change2faRouter)
+app.use('/api/restoreaccount', restoreAccountRouter)
 
 
 // Start server
