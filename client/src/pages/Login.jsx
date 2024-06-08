@@ -28,7 +28,7 @@ function Login() {
                 localStorage.setItem('token', res.token)
                 navigate('/user')
             } else {
-                navigate('/twofactor')
+                navigate('/twofactor', {state: {TwoFactor: !res.two_factor}})
             }
         } catch (error) {
             setLoginError(error.message)

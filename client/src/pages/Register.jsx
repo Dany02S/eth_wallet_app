@@ -24,10 +24,6 @@ function Register() {
             setSuccess(true)
             setRegistrationError(res.message)
             setTimeout(() => {
-                if (twoFactor) {
-                    navigate('/twofactor')
-                    return
-                }
                 localStorage.setItem('token', res.token)
                 navigate('/user')
             }, 1000)

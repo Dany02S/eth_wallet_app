@@ -34,7 +34,6 @@ function UserPage() {
     setTotalBalance(sum);
   }
   
-
   const fetchUser = async () => {
     try {
       const res = await getUser();
@@ -64,6 +63,9 @@ function UserPage() {
     try {
       await change2FA(!twoFactor);
       setTwoFactor(!twoFactor);
+      if (!twoFactor) {
+        navigate("/twofactor", { state: { twoFactor: twoFactor } });
+      }
     } catch (error) {
       setError(error.message);
     }
