@@ -26,12 +26,16 @@ function CreateAccount() {
     }
 
     async function saveAddress() {
-        setBalance(await getBalance(account));
-        const response = await saveAccountToDB(account.address, accountName);
-        if (response) setError(response.message);
-        const encryptedAccount = await web3.eth.accounts.encrypt(account.privateKey, accountPassword);
-        localStorage.setItem(account.address, JSON.stringify(encryptedAccount));
-        setSaved(true);
+        try {
+            setBalance(await getBalance(account));
+            await saveAccountToDB(account.address, accountName, accountPassword);
+            const encryptedAccount = await web3.eth.accounts.encrypt(account.privateKey, accountPassword);
+            localStorage.setItem(account.address, JSON.stringify(encryptedAccount));
+            setSaved(true);
+            setError(null);
+        } catch (error) {
+            setError(error.message);
+        }
     }
 
     return (
@@ -40,8 +44,9 @@ function CreateAccount() {
             <div className='form-div'>Address: {account.address}</div>
 
             {!saved ? <> 
-                <input className='form-input' type='password' placeholder='Password for encrypting private key' value={accountPassword} onChange={(e) => setAccountPassword(e.target.value)} />
+                <input className='form-input' type='password' placeholder='Enter your user account password for authentication' value={accountPassword} onChange={(e) => setAccountPassword(e.target.value)} />
                 <input className='form-input' type="text"  placeholder="Name of the account" value={accountName} onChange={(e) => setAccountName(e.target.value)} />
+                {error ? <div className='form-error'>{error}</div> : <></>}
                 <button className='form-button' onClick={() => saveAddress()}>Save</button>
             </> : <>
                 <div className='form-success'>Private Key is stored</div>
@@ -49,6 +54,8 @@ function CreateAccount() {
                 <div className='form-div'>Balance: {balance} ETH</div>
                 <button className='form-button' onClick={() => navigate('/user')}>Done</button>
             </>}
+
+            {/* Show the error message */}
         </div>
     );
 }

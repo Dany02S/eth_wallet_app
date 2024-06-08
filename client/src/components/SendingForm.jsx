@@ -13,7 +13,7 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
     const [success, setSuccess] = useState('');
 
     const [newReceiver, setNewReceiver] = useState(false);
-    const web3 = new Web3("http://localhost:7545");
+    const web3 = new Web3(import.meta.env.VITE_WEB3_PROVIDER_URL);
 
     const handleReciever = (e) => {
         e.preventDefault();
@@ -102,7 +102,7 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
                 <div className='form-input' id='dollar-form'>{parseFloat(totalTransactionCost*dollar).toFixed(4)}$</div>
             </div>
 
-            <input className='form-input' type="password" placeholder='Account password required to sign the transaction with private key' value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input className='form-input' type="password" placeholder='User account password required to sign the transaction with private key' value={password} onChange={(e) => setPassword(e.target.value)} />
 
             <div className='form-inputs'>
                 {!newReceiver ?

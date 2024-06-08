@@ -18,6 +18,7 @@ export const getEthereumPrice = async () => {
   }
 }
 
+
 // * POST request to /api/login
 export const loginUser = async (email, password) => {
   const data = {
@@ -38,16 +39,75 @@ export const loginUser = async (email, password) => {
   }
 };
 
+// * POST request to /api/verify
+export const verifyUser = async (user_id, verificationCode) => {
+  const data = {
+    "user_id": user_id,
+    "verification_code": verificationCode
+  }
+  try {
+    const response = await axiosPost(url + "/verify", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+
 // * POST request to /api/register
-export const registerUser = async (firstName, lastName, email, password) => {
+export const registerUser = async (firstName, lastName, email, password, twoFactor) => {
   const data = {
     "first_name": firstName,
     "last_name": lastName,
     "email": email,
-    "password": password
+    "password": password,
+    "two_factor_enabled": twoFactor
   }
   try {
     const response = await axiosPost(url + "/register", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+
+// * POST request to /api/2fa
+export const getingQRCode = async (user_id) => {
+  const data = {
+    "user_id": user_id
+  }
+  try {
+    const response = await axiosPost(url + "/qrcode", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+
+// * POST request to /api/change2fa
+export const change2FA = async (twoFactor) => {
+  const data = {
+    "two_factor_enabled": twoFactor
+  }
+  try {
+    const response = await axiosPost(url + "/change2fa", data);
     return response;
   } catch (error) {
     if (error.response) {
@@ -77,10 +137,11 @@ export const getUser = async () => {
 }
 
 // * POST request to /api/address
-export const saveAccountToDB = async (address, name) => {
+export const saveAccountToDB = async (address, name, password) => {
   const data = {
     address: address,
-    name: name
+    name: name,
+    password: password
   }
   try {
     const response = await axiosPost(url + "/account", data);
@@ -97,7 +158,6 @@ export const saveAccountToDB = async (address, name) => {
 }
 
 // * POST request to /api/transaction
-
 export const postTransaction = async (transaction_hash, amount, sender_address, receiver_address) => {
   try {
     const data = {
@@ -107,6 +167,26 @@ export const postTransaction = async (transaction_hash, amount, sender_address, 
       receiver_address: receiver_address
     }
     const response = await axiosPost(url + "/transaction", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+
+// * POST request to /api/checkPassword
+
+export const checkPassword = async (password) => {
+  try {
+    const data = {
+      password: password
+    }
+    const response = await axiosPost(url + "/checkPassword", data);
     return response;
   } catch (error) {
     if (error.response) {

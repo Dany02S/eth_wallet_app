@@ -15,6 +15,7 @@ router.get('/', authenticateUser, async (req, res) => {
           email: user.email,
           first_name: user.first_name,
           last_name: user.last_name,
+          two_factor: user.two_factor_enabled
         },
         accounts: accounts,
         transactions : transactions

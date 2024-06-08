@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
     last_name: {type: String, required: true},
     email: {type: String, required: true},
     password_hashed: {type: String, required: true},
+    two_factor_enabled: {type: Boolean, default: false},
+    two_factor_secret: {type: String, default: ''},
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}
 });
@@ -30,7 +32,7 @@ const transactionSchema = new mongoose.Schema({
 
 // Create a method to generate a token for the user
 userSchema.methods.generateAuthToken = function() {
-    return jwt.sign({ _id: this._id, email: this.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ _id: this._id, email: this.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
 }
 
 // Create models for the schemas
