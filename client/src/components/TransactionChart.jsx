@@ -29,7 +29,6 @@ const TransactionChart = ({ transactions, balance, address }) => {
         let data = transactions.filter(transaction => transaction.sender_address === address || transaction.receiver_address === address);
         data = data.sort((a, b) => new Date(a.date) - new Date(b.date));
         data = data.reverse();
-        console.log(data);
         data = transactions.map(transaction => {
             transaction.sender_address === address ? total += transaction.amount : total -= transaction.amount;
             return {
@@ -48,13 +47,15 @@ const TransactionChart = ({ transactions, balance, address }) => {
 
         chartRef.current = new Chart(ctx, {
             type: 'line',
+            
             data: {
                 labels: labels,
                 datasets: [{
                     data: amounts,
+
                     label: false,
-                    borderColor: 'rgb(0, 151, 105)',
-                    backgroundColor: 'rgba(0, 151, 105, 0.2)',
+                    borderColor: 'rgb(0, 200, 130)',
+                    // backgroundColor: 'rgba(0, 151, 105, 0.2)',
                     tension: 0.2,
                     pointBorderWidth: 0,
                     fill: false,

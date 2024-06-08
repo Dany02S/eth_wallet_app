@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { getUser, change2FA } from "../services/fetching";
 import { useNavigate } from "react-router-dom";
-import { getEthereumPrice } from "../services/fetching";
 
-import '../styles/User.css';
 import AddressCard from '../components/AddressCard';
-import {Web3} from 'web3';
-import { Switch } from "@mui/material";
+import LiveChart from "../components/user_card/LiveChart";
 import BalanceInfo from "../components/user_card/BalanceInfo";
 
+import { getEthereumPrice } from "../services/fetching";
+import {Web3} from 'web3';
+import { Switch } from "@mui/material";
+
+import '../styles/User.css';
 
 function UserPage() {
   const [user, setUser] = useState(null);
@@ -76,7 +78,7 @@ function UserPage() {
       navigate("/login");
     }
     fetchUser();
-  }, [dollar, balanceChange]);
+  }, [dollar, balanceChange, twoFactor]);
 
   return (
     <div className="user-container">
@@ -99,7 +101,7 @@ function UserPage() {
         nav === 0
         ? <BalanceInfo user={user} totalBalance={totalBalance} dollar={dollar} navigate={navigate} />
         : nav === 1
-        ? <h1>On progress</h1>
+        ? <LiveChart dollar={dollar} />
         : null
         }
       </div>
