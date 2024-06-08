@@ -12,8 +12,25 @@
     font: 1em sans-serif;
     width: 100%;
 }
+
+#addresse-container{
+    display: flex;
+    align-items: center;
+}
+#addresse-container img{
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+    cursor: pointer;
+}
 #address {
     font-size: small;
+}
+#addresse-container img:hover {
+    opacity: 0.7;
+}
+#addresse-container img:active {
+    opacity: 0.5;
 }
 
 .address-card {

@@ -40,7 +40,11 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
 
             <div className='address-card'>
                 <div><b>{name}</b></div>
-                <div id='address'>{address}</div>
+                {/* When click copy */}
+                <div id='addresse-container'>
+                    <div id='address'>{address}</div>
+                    <img src="copy.png" alt="" onClick={() => navigator.clipboard.writeText(address)}/>
+                </div>
                 <div>Balance {balance} ETH <span id="date-form">{parseFloat(balance*dollar).toFixed(2)}$</span></div>
                 <div className="form-buttons">
                     <button className='form-button' onClick={() => setSendingForm(!sendingForm)}>Send ETH</button>
