@@ -13,25 +13,34 @@
     width: 100%;
 }
 
+.address-img {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    opacity: 0.8;    
+}
+.address-img:hover {
+    opacity: 0.7;
+}
+.address-img:active {
+    opacity: 0.5;
+}
+
+#name-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 #addresse-container{
     display: flex;
     align-items: center;
 }
-#addresse-container img{
-    width: 15px;
-    height: 15px;
-    margin-left: 10px;
-    cursor: pointer;
-}
 #address {
     font-size: small;
+    margin-right: 8px;
 }
-#addresse-container img:hover {
-    opacity: 0.7;
-}
-#addresse-container img:active {
-    opacity: 0.5;
-}
+
 
 .address-card {
     display: flex;

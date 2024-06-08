@@ -11,6 +11,8 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
     const [sendingForm, setSendingForm] = useState(false);
     const [transForm, setTransForm] = useState(false);
     const [balance, setBalance] = useState(null);
+    const [showPrivateKey, setShowPrivateKey] = useState(false);
+    const [password, setPassword] = useState('');
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -35,17 +37,48 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
         return [...new Set(tran)];
     }
 
+    const handleGetPrivateKey = async () => {
+        const account = JSON.parse(localStorage.getItem(address));
+        if (!account) {
+            return;
+            }
+            try {
+            const dencryptedAccount = await web3.eth.accounts.decrypt(account, password);
+            const privateKeyInput = document.getElementById('privateKey-input');
+            privateKeyInput.value = dencryptedAccount.privateKey;
+            privateKeyInput.type = 'text';
+            privateKeyInput.readOnly = true;
+
+        } catch (error) {
+            return;
+        }
+    }
+
+
+
     return (
         <div className='address-container'>
 
             <div className='address-card'>
-                <div><b>{name}</b></div>
-                {/* When click copy */}
-                <div id='addresse-container'>
-                    <div id='address'>{address}</div>
-                    <img src="copy.png" alt="" onClick={() => navigator.clipboard.writeText(address)}/>
+                <div id='name-container'>
+                    <b>{name}</b>
+                    <img src="key.png" className='address-img' alt="" title='Show Private key' onClick={() => setShowPrivateKey(!showPrivateKey)}/>
                 </div>
                 <div>Balance {balance} ETH <span id="date-form">{parseFloat(balance*dollar).toFixed(2)}$</span></div>
+                <div id='addresse-container'>
+                    <div id='address'>Address: {address}</div>
+                    <img className='address-img' src="copy.png" title='Copy Address' alt="" onClick={() => navigator.clipboard.writeText(address)}/>
+                </div>
+                <div id='private-key-container'>
+                    {showPrivateKey ?
+                        <div className='form-inputs'>
+                            <input className='form-input' id='privateKey-input' type="password" placeholder='Enter code to get private key' onChange={(e) => setPassword(e.target.value)}/>
+                            <button className='form-button' onClick={handleGetPrivateKey}>Get Private Key</button>
+                        </div>
+                        :
+                        <></>
+                    }
+                </div>
                 <div className="form-buttons">
                     <button className='form-button' onClick={() => setSendingForm(!sendingForm)}>Send ETH</button>
                     <button className='form-button' onClick={() => setTransForm(!transForm)}>View history</button>
