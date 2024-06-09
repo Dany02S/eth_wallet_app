@@ -11,6 +11,7 @@ import {Web3} from 'web3';
 import { Switch } from "@mui/material";
 
 import '../styles/User.css';
+import LiveNews from "../components/user_card/LiveNews";
 
 function UserPage() {
   const [user, setUser] = useState(null);
@@ -97,11 +98,12 @@ function UserPage() {
         </div>
         {error 
         ? <div className="form-error">{error}</div> 
-        : 
-        nav === 0
+        : nav === 0
         ? <BalanceInfo user={user} totalBalance={totalBalance} dollar={dollar} navigate={navigate} />
         : nav === 1
         ? <LiveChart dollar={dollar} />
+        : nav === 2
+        ? <LiveNews />
         : null
         }
       </div>

@@ -19,9 +19,7 @@ const LiveChart = () => {
                 return updatedPrices;
             });
         };
-
         const interval = setInterval(fetchDollarPrice, 10000);
-
         return () => clearInterval(interval);
     }, []);
 
