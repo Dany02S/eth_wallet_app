@@ -68,7 +68,7 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
     return (
         <div className='address-container'>
             <div className='address-command-container'>
-                <img src="chart.png" className='address-img' alt="" title='Show Transaction chart' onClick={() => {setChartShow(!chartShow); setTransForm(!transForm);}} />
+                <img src="chart.png" className='address-img' alt="" title='Show Transaction chart' onClick={() => {setChartShow(!chartShow); setTransForm(!transForm); setSendingForm(false);}} />
                 <img src="key.png" className='address-img' alt="" title='Show Private key' onClick={() => setShowPrivateKey(!showPrivateKey)}/>
             </div>
             

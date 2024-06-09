@@ -41,6 +41,7 @@
     margin-left: 10px;
     width: 100%;
     gap: 1rem;
+    align-items: center;
 }
 
 .user-page-menu img {

@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 import AddressCard from '../components/AddressCard';
 import LiveChart from "../components/user_card/LiveChart";
 import BalanceInfo from "../components/user_card/BalanceInfo";
+import AIChat from "../components/user_card/AIChat";
 
 import { getEthereumPrice } from "../services/fetching";
 import {Web3} from 'web3';
 import { Switch } from "@mui/material";
 
 import '../styles/User.css';
+import '../styles/AIChat.css';
 import LiveNews from "../components/user_card/LiveNews";
 
 function UserPage() {
@@ -90,6 +92,7 @@ function UserPage() {
             <img src="user.png" alt="" onClick={() => setNav(0)} />
             <img src="chart.png" alt="" onClick={() => setNav(1)} />
             <img src="newspaper.png" alt="" onClick={() => setNav(2)} />
+            <img src="gemini.png" id="gemini-logo" alt="" onClick={() => setNav(3)} />
           </div>
           <div className="twofa-switch">
             <p className="nav-text" style={{color: twoFactor ? "green" : "gray"}}>2FA</p>
@@ -104,6 +107,8 @@ function UserPage() {
         ? <LiveChart dollar={dollar} />
         : nav === 2
         ? <LiveNews />
+        : nav === 3
+        ? <AIChat />
         : null
         }
       </div>
