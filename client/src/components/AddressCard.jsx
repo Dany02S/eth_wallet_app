@@ -5,12 +5,21 @@ import SendingForm from './SendingForm';
 import { Web3 } from 'web3';
 import { useEffect } from 'react';
 import TransactionCard from '../components/TransactionCard';
+import TransactionChart from './TransactionChart';
 
 
 const AddressCard = ({address, name, transactions, setBalanceChange, balanceChange, dollar, web3}) => {
     const [sendingForm, setSendingForm] = useState(false);
     const [transForm, setTransForm] = useState(false);
+    const [chartShow, setChartShow] = useState(false);
+
     const [balance, setBalance] = useState(null);
+
+    const [showPrivateKey, setShowPrivateKey] = useState(false);
+    const [privateKeyUnlocked, setPrivateKeyUnlocked] = useState(false)
+    const [privateKey, setPrivateKey] = useState('');
+
+    const [password, setPassword] = useState('');
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -35,18 +44,64 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
         return [...new Set(tran)];
     }
 
+    const handleGetPrivateKey = async () => {
+        const account = JSON.parse(localStorage.getItem(address));
+        if (!account) {
+            return;
+            }
+            try {
+            const dencryptedAccount = await web3.eth.accounts.decrypt(account, password);
+            const privateKeyInput = document.getElementById('privateKey-input');
+            privateKeyInput.value = '';
+            setPrivateKey(dencryptedAccount.privateKey);
+            setPrivateKeyUnlocked(true);
+            setTimeout(() => {
+                setPrivateKeyUnlocked(false);
+            }, 10000);
+        } catch (error) {
+            return;
+        }
+    }
+
+
+
     return (
         <div className='address-container'>
-
-            <div className='address-card'>
-                <div><b>{name}</b></div>
-                <div id='address'>{address}</div>
+            <div className='address-command-container'>
+                <img src="chart.png" className='address-img' alt="" title='Show Transaction chart' onClick={() => {setChartShow(!chartShow); setTransForm(!transForm);}} />
+                <img src="key.png" className='address-img' alt="" title='Show Private key' onClick={() => setShowPrivateKey(!showPrivateKey)}/>
+            </div>
+            
+            {!chartShow ? <div className='address-card'>
+                <div id='name-container'>
+                    <b>{name}</b>
+                </div>
                 <div>Balance {balance} ETH <span id="date-form">{parseFloat(balance*dollar).toFixed(2)}$</span></div>
+                <div id='addresse-container'>
+                    <div id='address'>Address: {address}</div>
+                    <img className='address-img' src="copy.png" title='Copy Address' alt="" onClick={() => navigator.clipboard.writeText(address)}/>
+                </div>
+                <div id='private-key-container'>
+                    {showPrivateKey ?
+                        !privateKeyUnlocked 
+                        ? <div className='form-inputs'>
+                            <input className='form-input' id='privateKey-input' type="password" placeholder='Enter code to get private key' onChange={(e) => setPassword(e.target.value)}/>
+                            <button className='form-button' onClick={handleGetPrivateKey}>Get Private Key</button>
+                        </div>
+                        : <div id='addresse-container'>
+                            <div id='address'>Private key: {privateKey}</div>
+                            <img className='address-img' src="copy.png" title='Copy Private Key' alt="" onClick={() => navigator.clipboard.writeText(privateKey)}/>
+                        </div>
+                        :
+                        <></>
+                    }
+                </div>
                 <div className="form-buttons">
-                    <button className='form-button' onClick={() => setSendingForm(!sendingForm)}>Send ETH</button>
-                    <button className='form-button' onClick={() => setTransForm(!transForm)}>View history</button>
+                    <button className='form-button' onClick={() => {setSendingForm(!sendingForm); setTransForm(false)}}>Send ETH</button>
+                    <button className='form-button' onClick={() => {setTransForm(!transForm); setSendingForm(false)}}>View history</button>
                 </div>
             </div>
+            : chartShow && <TransactionChart transactions={transactions} balance={balance} address={address} />}
 
             {sendingForm && <SendingForm 
                 address={address} 

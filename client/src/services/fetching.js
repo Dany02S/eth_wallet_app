@@ -18,6 +18,34 @@ export const getEthereumPrice = async () => {
   }
 }
 
+// * GET request for the latest Ethereum news
+export const getEthereumNews = async () => {
+  try {
+    const date = new Date();
+    const currentDate = date.getTime();
+    const twoHours = 7200000;
+    const lastFetch = localStorage.getItem("lastFetch");
+    if (!lastFetch || currentDate - lastFetch > twoHours) {
+      const response = await axiosGet(`https://newsdata.io/api/1/latest?apikey=${import.meta.env.VITE_ETH_NEWS_API_KEY}&q=ethereum`);
+      localStorage.setItem("news", JSON.stringify(response));
+      localStorage.setItem("lastFetch", currentDate);
+      return response;
+    } else {
+      const response = JSON.parse(localStorage.getItem("news"));
+      return response;
+    }
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+
+
 
 // * POST request to /api/login
 export const loginUser = async (email, password) => {
@@ -145,6 +173,26 @@ export const saveAccountToDB = async (address, name, password) => {
   }
   try {
     const response = await axiosPost(url + "/account", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
+
+// * POST request to /api/restoreAccount
+export const restoreAccount = async (password, address) => {
+  const data = {
+    password: password,
+    address: address
+  }
+  try {
+    const response = await axiosPost(url + "/restoreAccount", data);
     return response;
   } catch (error) {
     if (error.response) {

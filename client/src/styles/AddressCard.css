@@ -12,9 +12,42 @@
     font: 1em sans-serif;
     width: 100%;
 }
+
+.address-command-container{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.address-img {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    opacity: 0.8;    
+}
+.address-img:hover {
+    opacity: 0.7;
+}
+.address-img:active {
+    opacity: 0.5;
+}
+
+#name-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#addresse-container{
+    display: flex;
+    align-items: center;
+}
 #address {
     font-size: small;
+    margin-right: 12px;
 }
+
 
 .address-card {
     display: flex;
