@@ -14,6 +14,8 @@ const qrcodeRouter = require('./routes/qrcodeUser')
 const verifyRouter = require('./routes/verifyUser')
 const change2faRouter = require('./routes/change2faUser')
 const restoreAccountRouter = require('./routes/restoreAccount')
+const getAIAnswer = require('./routes/aiChatResponse')
+
 
 
 // Middlewares
@@ -31,6 +33,7 @@ app.use('/api/qrcode', qrcodeRouter)
 app.use('/api/verify', verifyRouter)
 app.use('/api/change2fa', change2faRouter)
 app.use('/api/restoreaccount', restoreAccountRouter)
+app.use('/api/aiAnswer', getAIAnswer)
 
 
 // Start server
