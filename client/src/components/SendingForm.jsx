@@ -91,15 +91,24 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className='form-labels'>
-                <div>Sending amount</div>
-                <div>Gas cost included</div>
-            </div>
-            <div className='form-buttons'>
-                <input className='form-input' type="text" placeholder={'Amount'} onChange={(e) => handleAmount(e)} />
-                <div className='form-input' id='dollar-form'>{parseFloat(amount*dollar).toFixed(4)}$</div>
-                <div className='form-input' id='eth-form'>{parseFloat(totalTransactionCost).toFixed(6)} ETH</div>
-                <div className='form-input' id='dollar-form'>{parseFloat(totalTransactionCost*dollar).toFixed(4)}$</div>
+            <div className='sendings'>
+
+                <div className='sending-parent'>
+                    <div className='sending-title'>Sending amount</div>
+                    <div className='form-buttons'>
+                        <input className='form-input' type="text" placeholder={'Amount'} onChange={(e) => handleAmount(e)} />
+                        <div className='form-input' id='dollar-form'>{parseFloat(amount*dollar).toFixed(4)}$</div>
+                    </div>
+                </div>
+
+                <div className='sending-parent'>
+                    <div className='sending-title'>Gas cost included</div>
+                    <div className='form-buttons'>
+                        <div className='form-input' id='eth-form'>{parseFloat(totalTransactionCost).toFixed(6)} ETH</div>
+                        <div className='form-input' id='dollar-form'>{parseFloat(totalTransactionCost*dollar).toFixed(4)}$</div>
+                    </div>
+                </div>
+
             </div>
 
             <input className='form-input' type="password" placeholder='User account password required to sign the transaction with private key' value={password} onChange={(e) => setPassword(e.target.value)} />
