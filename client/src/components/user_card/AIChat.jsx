@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { getAIAnswer } from "../../services/fetching";
+import useEthereumPrices from '../../hooks/useEthereumPrices';
 
 const AIChat = () => {
     const [question, setQuestion] = useState("");
@@ -7,6 +8,9 @@ const AIChat = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const chatContainerRef = useRef(null);
+    // eslint-disable-next-line no-unused-vars
+    const dollarPrices = useEthereumPrices();
+
 
     useEffect(() => {
         

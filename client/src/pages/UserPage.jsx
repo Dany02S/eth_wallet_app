@@ -14,6 +14,7 @@ import { Switch } from "@mui/material";
 import '../styles/User.css';
 import '../styles/AIChat.css';
 import LiveNews from "../components/user_card/LiveNews";
+import useEthereumPrices from '../../hooks/useEthereumPrices';
 
 function UserPage() {
   const [user, setUser] = useState(null);
@@ -32,6 +33,8 @@ function UserPage() {
   const [nav, setNav] = useState(0);
   const navigate = useNavigate();
   const web3 = new Web3(import.meta.env.VITE_WEB3_PROVIDER_URL);
+  // eslint-disable-next-line no-unused-vars
+  const dollarPrices = useEthereumPrices();
 
   const fetchBalances = async () => {
     let sum = 0;

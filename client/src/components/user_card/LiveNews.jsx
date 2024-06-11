@@ -4,10 +4,13 @@ import { getEthereumNews } from '../../services/fetching';
 import '../../styles/LiveNews.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import useEthereumPrices from '../../hooks/useEthereumPrices';
 
 const LiveNews = () => {
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
+    // eslint-disable-next-line no-unused-vars
+    const dollarPrices = useEthereumPrices();
 
     useEffect(() => {
         const fetchNews = async () => {

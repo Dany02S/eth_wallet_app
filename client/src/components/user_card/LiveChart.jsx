@@ -1,27 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
-import { getEthereumPrice } from "../../services/fetching";
+import { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto';
+import useEthereumPrices from '../../hooks/useEthereumPrices';
 
 const LiveChart = () => {
     const chartRef = useRef(null);
     const canvasRef = useRef(null);
-    const [dollarPrices, setDollarPrices] = useState(() => {
-        const savedPrices = localStorage.getItem('dollarPrices');
-        return savedPrices ? JSON.parse(savedPrices) : [];
-    });
-
-    useEffect(() => {
-        const fetchDollarPrice = async () => {
-            const dollarPrice = await getEthereumPrice();
-            setDollarPrices(prevPrices => {
-                const updatedPrices = [...prevPrices.slice(-40), dollarPrice.USD];
-                localStorage.setItem('dollarPrices', JSON.stringify(updatedPrices));
-                return updatedPrices;
-            });
-        };
-        const interval = setInterval(fetchDollarPrice, 10000);
-        return () => clearInterval(interval);
-    }, []);
+    const dollarPrices = useEthereumPrices();
 
     useEffect(() => {
         const ctx = canvasRef.current.getContext('2d');
@@ -36,7 +20,6 @@ const LiveChart = () => {
                 labels: dollarPrices.map((_, index) => index),
                 datasets: [{
                     data: dollarPrices,
-
                     borderColor: dollarPrices[dollarPrices.length - 2] > dollarPrices[dollarPrices.length - 1] ? 'rgb(255, 0, 0)' : 'rgb(0, 200, 130)',
                     backgroundColor: 'rgba(0, 0, 0, 0)',
                     tension: 0.2,
@@ -85,5 +68,6 @@ const LiveChart = () => {
         </>
     );
 }
+
 
 export default LiveChart;
