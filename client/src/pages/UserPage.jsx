@@ -14,7 +14,7 @@ import { Switch } from "@mui/material";
 import '../styles/User.css';
 import '../styles/AIChat.css';
 import LiveNews from "../components/user_card/LiveNews";
-import useEthereumPrices from '../../hooks/useEthereumPrices';
+import useEthereumPrices from '../hooks/useEthereumPrices';
 
 function UserPage() {
   const [user, setUser] = useState(null);

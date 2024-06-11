@@ -34,6 +34,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /* Make content fit */
+    overflow:scroll;
+    white-space: nowrap;
+
 }
 
 .form-img {
@@ -65,11 +70,26 @@
     gap: 10px;
 }
 
+
+
+
+
 .form-inputs {
     display: grid;
     grid-template-columns: 3fr 1fr;
     width: 100%;
     gap: 10px;
+}
+
+@media screen and (max-width: 600px){
+    .form-buttons {
+        flex-direction: column;
+    }
+
+    .form-inputs {
+        grid-template-columns: 1fr;
+    }
+
 }
 
 form {
