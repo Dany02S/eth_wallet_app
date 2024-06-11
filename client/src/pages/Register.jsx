@@ -24,8 +24,11 @@ function Register() {
             setSuccess(true)
             setRegistrationError(res.message)
             setTimeout(() => {
-                localStorage.setItem('token', res.token)
-                navigate('/user')
+                if (res.two_factor_enabled) {
+                    navigate("/twofactor", { state: { twoFactor: res.two_factor_enabled } });
+                } else {
+                    navigate('/user')
+                }
             }, 1000)
         } catch (error) {
             setRegistrationError(error.message)
