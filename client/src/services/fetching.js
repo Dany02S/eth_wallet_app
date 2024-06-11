@@ -45,6 +45,25 @@ export const getEthereumNews = async () => {
   }
 }
 
+// * POST request to /api/aiAnswer
+export const getAIAnswer = async (message, history) => {
+  const data = {
+    "message": message,
+    "history": history
+  }
+  try {
+    const response = await axiosPost(url + "/aiAnswer", data);
+    return response;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      throw new Error("No response received from the server");
+    } else {
+      throw new Error("Error setting up the request");
+    }
+  }
+}
 
 
 // * POST request to /api/login
