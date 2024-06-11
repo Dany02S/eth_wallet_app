@@ -9,6 +9,7 @@ function Register() {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [repeatPassword, setRepeatPassword] = useState('')
     const [twoFactor, setTwoFactor] = useState(false)
 
     const [registrationError, setRegistrationError] = useState('')
@@ -19,6 +20,10 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            if (password !== repeatPassword) {
+                setRegistrationError('Passwords do not match')
+                return
+            }
             const res = await registerUser(firstName, lastName, email, password, twoFactor)
             localStorage.setItem('user_id', res.user_id)
             setSuccess(true)
@@ -27,6 +32,7 @@ function Register() {
                 if (res.two_factor_enabled) {
                     navigate("/twofactor", { state: { twoFactor: res.two_factor_enabled } });
                 } else {
+                    localStorage.setItem('token', res.token)
                     navigate('/user')
                 }
             }, 1000)
@@ -43,6 +49,7 @@ function Register() {
                 <input className='form-input' type='text' placeholder='Last Name' onChange={(e) => setLastName(e.target.value)} />
                 <input className='form-input' type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
                 <input className='form-input' type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+                <input className='form-input' type='password' placeholder='Repeat Password' onChange={(e) => setRepeatPassword(e.target.value)} />
                 <div className='form-switch-container'>
                     <p className='nav-text' style={twoFactor ? {color: 'green'} : {color: 'gray'}}>{twoFactor ? '2FA Enabled' : '2FA Disabled'}</p>
                     <Switch className='form-switch' onChange={() => setTwoFactor(!twoFactor)} color='default' />
