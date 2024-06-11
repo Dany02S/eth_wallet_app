@@ -10,6 +10,10 @@
     scrollbar-width: none;
 }
 
+.slick-list div div::-webkit-scrollbar {
+    display: none;
+}
+
 .slick-list div img {
     align-self: center;
     justify-self: unset;
