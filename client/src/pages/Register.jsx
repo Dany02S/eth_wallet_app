@@ -51,7 +51,7 @@ function Register() {
                 <input className='form-input' type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                 <input className='form-input' type='password' placeholder='Repeat Password' onChange={(e) => setRepeatPassword(e.target.value)} />
                 <div className='form-switch-container'>
-                    <p className='nav-text' style={twoFactor ? {color: 'green'} : {color: 'gray'}}>{twoFactor ? '2FA Enabled' : '2FA Disabled'}</p>
+                    <p className='nav-text' style={twoFactor ? {color: '#1fae61'} : {color: 'gray'}}>{twoFactor ? '2FA Enabled' : '2FA Disabled'}</p>
                     <Switch className='form-switch' onChange={() => setTwoFactor(!twoFactor)} color='default' />
                 </div>
                 {registrationError && success === false && <div className='form-error'>{registrationError}</div>}

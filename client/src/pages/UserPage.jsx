@@ -98,14 +98,15 @@ function UserPage() {
             <img src="gemini.png" id="gemini-logo" alt="" onClick={() => setNav(3)} />
           </div>
           <div className="twofa-switch">
-            <p className="nav-text" style={{color: twoFactor ? "green" : "gray"}}>2FA</p>
+            <p className="nav-text" style={{color: twoFactor ? "#1fae61" : "gray"}}>2FA</p>
             <Switch className="form-switch" onChange={handleTwoFactorChange} color="default" checked={twoFactor} />
           </div>
         </div>
         {error 
         ? <div className="form-error">{error}</div> 
         : nav === 0
-        ? <BalanceInfo user={user} totalBalance={totalBalance} dollar={dollar} navigate={navigate} />
+        // Last elmenet in dollarPrices is the current price of Ethereum
+        ? <BalanceInfo user={user} totalBalance={totalBalance} dollar={dollarPrices[dollarPrices.length - 1]} navigate={navigate} />
         : nav === 1
         ? <LiveChart dollar={dollar} />
         : nav === 2
@@ -125,7 +126,7 @@ function UserPage() {
           balanceChange={balanceChange}
           setBalanceChange={setBalanceChange}
           setTotalBalance={setTotalBalance}
-          dollar={dollar}
+          dollar={dollarPrices[dollarPrices.length - 1]}
           web3={web3}
         />
       ))}</>
