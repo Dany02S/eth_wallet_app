@@ -11,6 +11,8 @@ function Register() {
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
     const [twoFactor, setTwoFactor] = useState(false)
+    // Create regex for password complexity(min 5 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character)
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/;
 
     const [registrationError, setRegistrationError] = useState('')
     const [success, setSuccess] = useState(false)
@@ -22,6 +24,10 @@ function Register() {
         try {
             if (password !== repeatPassword) {
                 setRegistrationError('Passwords do not match')
+                return
+            }
+            if (!password.match(passwordRegex)) {
+                setRegistrationError('Password len<=5, 1 uppercase, 1 lowercase, 1 number, 1 special character')
                 return
             }
             const res = await registerUser(firstName, lastName, email, password, twoFactor)

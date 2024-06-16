@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
         
         let url = '';
         if (user.two_factor_secret === '') {
-            var secret = speakeasy.generateSecret({ name: req.body.user_id });
+            var secret = speakeasy.generateSecret({ name: `ETH Wallet - ${user.email}` }); // `ETH Wallet - ${user.email
             user.two_factor_secret = secret.base32;
             url = secret.otpauth_url;
             await user.save();
