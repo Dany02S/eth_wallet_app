@@ -18,8 +18,6 @@
     flex-direction: column;
     align-items: flex-start;
     scrollbar-width: none;
-    /* Start loading items from the back */
-    /* flex-direction: column-reverse; */
 }
 
 .welcome-bar {
@@ -29,10 +27,37 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    img {
-        width: 50px
-    }
+    
+}
+.welcome-bar img {
+    width: 50px;
+    height: 50px;
+    opacity: 0.8;
+    animation: big-little infinite ease-in-out 2s;
+}
 
+
+@keyframes big-little {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.25);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media screen and (max-width: 600px){
+    .welcome-bar {
+        img {
+            width: 30px
+        } 
+        h3 {
+            font-size: small;
+        }
+    }
 }
 
 .recieved-message {
@@ -57,6 +82,8 @@
     align-self: flex-end;
     border-radius: 10px 0 10px 10px;
 }
+
+
 
 .loading-ai {
     display: flex;

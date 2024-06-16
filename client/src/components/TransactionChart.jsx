@@ -94,7 +94,7 @@ const TransactionChart = ({ transactions, balance, address }) => {
         };
         
         
-    }, [transactions, balance]);
+    }, []);
 
     return (
         <>

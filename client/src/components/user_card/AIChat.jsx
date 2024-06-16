@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { getAIAnswer } from "../../services/fetching";
+import useEthereumPrices from '../../hooks/useEthereumPrices';
 
 const AIChat = () => {
     const [question, setQuestion] = useState("");
@@ -7,6 +8,9 @@ const AIChat = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const chatContainerRef = useRef(null);
+    // eslint-disable-next-line no-unused-vars
+    const dollarPrices = useEthereumPrices();
+
 
     useEffect(() => {
         
@@ -68,6 +72,12 @@ const AIChat = () => {
         }
     }
 
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+    }
+
 
     return (
         <div className="ai-chat-container">
@@ -85,7 +95,14 @@ const AIChat = () => {
             </div>}
             {error && <div className="form-error">{error}</div>}
             <div className="form-inputs">
-                <input type="text" className="form-input" id="inputFiled" placeholder="Type your question..." value={question} onChange={(e) => setQuestion(e.target.value)} />
+                <input 
+                type="text" 
+                className="form-input" 
+                id="inputFiled" 
+                placeholder="Type your question..." 
+                value={question} 
+                onKeyPress={handleKeyPress}
+                onChange={(e) => setQuestion(e.target.value)} />
                 <button className="form-button" onClick={sendMessage}>Send</button>
             </div>
         </div>

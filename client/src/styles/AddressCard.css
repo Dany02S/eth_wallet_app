@@ -48,6 +48,16 @@
     margin-right: 12px;
 }
 
+@media screen and (max-width: 600px){
+    #address {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    }
+
+}
+
 
 .address-card {
     display: flex;

@@ -57,8 +57,6 @@ function CreateAccount() {
                 <div className='form-div'>Balance: {balance} ETH</div>
                 <button className='form-button' onClick={() => navigate('/user')}>Done</button>
             </>}
-
-            {/* Show the error message */}
         </div>
     );
 }

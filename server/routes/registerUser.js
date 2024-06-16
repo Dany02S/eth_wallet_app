@@ -25,17 +25,14 @@ router.post('/', async (req, res) => {
         const new_userm = await new User(new_user).save();
 
         const token = new_userm.generateAuthToken(new_userm._id);
-        if (req.body.two_factor_enabled) {
-            return res.status(201).send({ 
-                message: 'User created!',
-                user_id: new_userm._id,
-                token: token});
-        } else {
-            return res.status(201).send({ 
-                message: 'User created, scan your QR code for 2FA!',
-                user_id: new_userm._id, 
-                token: token});
-        }
+        
+        return res.status(201).send({ 
+            message: req.body.two_factor_enabled ? 'User created with 2FA' : 'User created',
+            user_id: new_userm._id,
+            token: token, 
+            two_factor_enabled: req.body.two_factor_enabled
+        });
+        
     } catch (error) {
         res.status(500).send({ message: error.message});
     }

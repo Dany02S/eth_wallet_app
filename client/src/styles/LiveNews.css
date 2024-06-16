@@ -10,8 +10,9 @@
     scrollbar-width: none;
 }
 
-.slick-list div div::-webkit-scrollbar {
-    display: none;
+.slick-list div div div {
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .slick-list div img {
