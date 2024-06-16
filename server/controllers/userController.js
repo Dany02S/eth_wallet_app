@@ -7,18 +7,23 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 exports.getUserPage = async (req, res) => {
     const userId = req.userId
     try {
-      const user = await User.findById(userId);
-      if (!user) return res.status(404).json({ message: 'User not found' });
+        const user = await User.findById(userId);
 
-      const accounts = await Account.find({ user_id: userId });
-      transactions = await Transaction.find({ $or: [{ sender_address: { $in: accounts.map(account => account.address) } }, { receiver_address: { $in: accounts.map(account => account.address) } }] });
-      const data = {
-        user : {
-          _id: user._id,
-          email: user.email,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          two_factor: user.two_factor_enabled
+        if (!user) return res.status(404).json({ message: 'User not found' });  
+        const accounts = await Account.find({ user_id: userId });
+
+        transactions = await Transaction.find({ 
+          $or: [{ sender_address: { $in: accounts.map(account => account.address) } }, 
+              { receiver_address: { $in: accounts.map(account => account.address) } }] 
+        });
+
+        const data = {
+            user : {
+                _id: user._id,
+                email: user.email,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                two_factor: user.two_factor_enabled
         },
         accounts: accounts,
         transactions : transactions
