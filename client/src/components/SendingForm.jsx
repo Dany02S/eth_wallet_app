@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Web3 } from 'web3';
 import PropTypes from 'prop-types';
 import { postTransaction } from '../services/fetching';
+import useIndexedDB from '../hooks/useIndexedDB';
+
 
 const SendingForm = ({ balance, address, transactions, setBalanceChange, balanceChange, dollar }) => {
     const [receiver, setReceiver] = useState('');
@@ -14,7 +16,7 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
 
     const [newReceiver, setNewReceiver] = useState(false);
     const web3 = new Web3(import.meta.env.VITE_WEB3_PROVIDER_URL);
-
+    const { getAccountFromIndexedDB } = useIndexedDB();
     const handleReciever = (e) => {
         e.preventDefault();
         const value = e.target.value;
@@ -23,7 +25,8 @@ const SendingForm = ({ balance, address, transactions, setBalanceChange, balance
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const account = JSON.parse(localStorage.getItem(address));
+        const account = await getAccountFromIndexedDB(address);
+
         if (!account) {
             setError('Your account was not found!');
             return;

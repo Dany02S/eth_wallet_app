@@ -105,7 +105,6 @@ function UserPage() {
         {error 
         ? <div className="form-error">{error}</div> 
         : nav === 0
-        // Last elmenet in dollarPrices is the current price of Ethereum
         ? <BalanceInfo user={user} totalBalance={totalBalance} dollar={dollarPrices[dollarPrices.length - 1]} navigate={navigate} />
         : nav === 1
         ? <LiveChart dollar={dollar} />

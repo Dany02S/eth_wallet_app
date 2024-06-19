@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { useNavigate } from 'react-router-dom';
 import { saveAccountToDB } from '../services/fetching';
+import useIndexedDB from '../hooks/useIndexedDB';
 
 function CreateAccount() {
     const [saved, setSaved] = useState(false);
@@ -13,6 +14,7 @@ function CreateAccount() {
 
     const navigate = useNavigate();
     const web3 = new Web3(import.meta.env.VITE_WEB3_PROVIDER_URL);
+    const { saveAccountToIndexedDB } = useIndexedDB();
     
 
     useEffect(() => {
@@ -30,7 +32,9 @@ function CreateAccount() {
             setBalance(await getBalance(account));
             await saveAccountToDB(account.address, accountName, accountPassword);
             const encryptedAccount = await web3.eth.accounts.encrypt(account.privateKey, accountPassword);
-            localStorage.setItem(account.address, JSON.stringify(encryptedAccount));
+            await saveAccountToIndexedDB(account.address, encryptedAccount).then(() => {
+                console.log('Account saved to indexedDB');
+            });
             setSaved(true);
             setError(null);
         } catch (error) {
@@ -62,3 +66,4 @@ function CreateAccount() {
 }
 
 export default CreateAccount;
+

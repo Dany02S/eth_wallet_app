@@ -6,6 +6,7 @@ import { Web3 } from 'web3';
 import { useEffect } from 'react';
 import TransactionCard from '../components/TransactionCard';
 import TransactionChart from './TransactionChart';
+import useIndexedDB from '../hooks/useIndexedDB';
 
 
 const AddressCard = ({address, name, transactions, setBalanceChange, balanceChange, dollar, web3}) => {
@@ -20,6 +21,8 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
     const [privateKey, setPrivateKey] = useState('');
 
     const [password, setPassword] = useState('');
+
+    const { getAccountFromIndexedDB } = useIndexedDB();
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -45,7 +48,8 @@ const AddressCard = ({address, name, transactions, setBalanceChange, balanceChan
     }
 
     const handleGetPrivateKey = async () => {
-        const account = JSON.parse(localStorage.getItem(address));
+        const account = await getAccountFromIndexedDB(address);
+
         if (!account) {
             return;
             }
