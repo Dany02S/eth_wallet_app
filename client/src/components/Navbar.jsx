@@ -18,14 +18,14 @@ function Navbar() {
         <div className='navbar'>
 
             <div onClick={() => navigate('/')}>
-                <img src="/eth_logo.png" alt="" />
-                <h2>ETH Wallet</h2>
+                <img src="/logo.png" alt="" />
+                <h2>ETHna</h2>
             </div>
 
             {!localStorage.getItem('token') 
             ?  <div><Link to='/login' className='nav-link'>Login</Link>&nbsp;/&nbsp;<Link to='/register' className='nav-link'>Register</Link></div>
             : <div>
-                <img src="/account.png" onClick={() => navigate('/user')} alt="" />
+                <img src="/account.png" id='user_icon' onClick={() => navigate('/user')} alt="" />
                 <button className='nav-button' onClick={handleLogout}>Logout</button>
             </div>}
 

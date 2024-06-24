@@ -12,7 +12,7 @@ const TransactionChart = ({ transactions, balance, address }) => {
         const date = new Date(dateStr);
     
         const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month because it's zero-based
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const day = date.getDate().toString().padStart(2, '0');
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
@@ -55,7 +55,6 @@ const TransactionChart = ({ transactions, balance, address }) => {
 
                     label: false,
                     borderColor: 'rgb(0, 200, 130)',
-                    // backgroundColor: 'rgba(0, 151, 105, 0.2)',
                     tension: 0.2,
                     pointBorderWidth: 0,
                     fill: false,
