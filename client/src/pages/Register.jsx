@@ -11,7 +11,6 @@ function Register() {
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
     const [twoFactor, setTwoFactor] = useState(false)
-    // Create regex for password complexity(min 5 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character)
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/;
 
     const [registrationError, setRegistrationError] = useState('')

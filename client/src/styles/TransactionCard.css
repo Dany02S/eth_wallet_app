@@ -29,19 +29,9 @@
     max-width: 200px;
   }
   .transaction-info {
-    /* Make first element one row, the second and third i the same row */
     flex-direction: column;
-
-    /* Align the items to the start */
     align-items: start;
-
-    /* Remove the gap between the elements */
     gap: 0px;
-
-    /* Add padding to the top and bottom */
-    
-
-
   }
 }
 

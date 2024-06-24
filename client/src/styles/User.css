@@ -8,6 +8,11 @@
     gap: 1rem;
 }
 
+.home_logo {
+    width: 180px;
+    
+}
+
 .user-data-show {
     margin: 4px;
 }

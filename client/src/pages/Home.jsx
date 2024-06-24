@@ -4,12 +4,12 @@ function Home() {
     return (
         <div className="form-container2">
             <div>
-                <img src="/eth_logo.png" alt="" />
-                <h1>Welcome into <span>ETH </span>Wallet</h1>
+                <img src="/logo.png" className="home_logo" alt="" />
+                <h1>Welcome into <span>ETH</span>na</h1>
             </div>
-            <h4>ETH Wallet is a simple Ethereum wallet that allows you to create accounts and transfer Ether.</h4>
-            <p>Click on the <span className="nav-link" onClick={() => navigate('/register')}>Register</span> to create a new Wallet.</p>
-            <p>Click on the <span className="nav-link" onClick={() => navigate('/login')}>Login</span> to log and enter to your existing Wallet.</p>
+            <h4>ETHna is a simple and secure crypto wallet that allows you to create accounts and transfer Ether.</h4>
+            <p>Click on <span className="nav-link" onClick={() => navigate('/register')}>Register</span> to create a new Wallet.</p>
+            <p>Click on <span className="nav-link" onClick={() => navigate('/login')}>Login</span> to enter into your existing Wallet.</p>
         </div>
     );
 }
